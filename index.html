@@ -59,7 +59,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
 button,input,select{font-family:inherit;font-size:inherit}
 :focus-visible{outline:3px solid var(--brand);outline-offset:2px;border-radius:8px}
-.wrap{max-width:760px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 
 /* Header */
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
@@ -73,6 +73,20 @@ nav.tabs button{border:0;background:transparent;color:var(--ink-faint);font-weig
 nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--brand)}
 
 main{padding-block:24px 80px;display:grid;gap:20px}
+/* Escritorio: Mi mes en 3 columnas (respuesta | dinero | apuntes); tablet en 2; móvil en 1 */
+.view{display:grid;gap:20px;align-items:start}
+.view>*{min-width:0}
+.view .full{grid-column:1/-1}
+@media(min-width:720px){
+  .view-mes{grid-template-columns:1fr 1fr}
+  .view-mes .movs-panel{grid-column:1/-1}
+  .view-pdf{grid-template-columns:1fr 1fr}
+}
+@media(min-width:1000px){
+  .view-mes{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr) minmax(0,1.15fr)}
+  .view-mes .movs-panel{grid-column:auto}
+}
+.view-anadir{max-width:720px;width:100%;margin-inline:auto}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
 .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--brand);font-weight:600}
 .lead{color:var(--ink-soft);margin:4px 0 0}
@@ -202,8 +216,8 @@ footer{padding-block:0 60px;color:var(--ink-faint);font-size:12px}
 
 <main class="wrap">
   <!-- ========== MI MES ========== -->
-  <section id="view-mes" style="display:grid;gap:20px">
-    <div class="month">
+  <section id="view-mes" class="view view-mes">
+    <div class="month full">
       <h1 id="month-name">noviembre 2026</h1>
       <div class="arrows">
         <button id="m-prev" aria-label="Mes anterior">‹</button>
@@ -221,7 +235,7 @@ footer{padding-block:0 60px;color:var(--ink-faint);font-size:12px}
       <div class="cats" id="cats"></div>
     </div>
 
-    <div class="panel">
+    <div class="panel movs-panel">
       <div class="row" style="justify-content:space-between">
         <div class="eyebrow">Apuntes de este mes</div>
         <button class="btn small primary" id="go-add">+ Apuntar</button>
@@ -231,7 +245,7 @@ footer{padding-block:0 60px;color:var(--ink-faint);font-size:12px}
   </section>
 
   <!-- ========== APUNTAR ========== -->
-  <section id="view-anadir" hidden>
+  <section id="view-anadir" class="view-anadir" hidden>
     <div class="panel">
       <div class="eyebrow">Apuntar a mano</div>
       <h2 style="font-size:22px;margin:4px 0 18px">¿Qué quieres apuntar?</h2>
@@ -260,7 +274,7 @@ footer{padding-block:0 60px;color:var(--ink-faint);font-size:12px}
   </section>
 
   <!-- ========== PDF ========== -->
-  <section id="view-pdf" hidden style="display:grid;gap:20px">
+  <section id="view-pdf" class="view view-pdf" hidden>
     <div class="panel" style="display:grid;gap:16px">
       <div>
         <div class="eyebrow">Subir extracto</div>
