@@ -1,119 +1,137 @@
 # Salud Económica
 
 <div align="center">
-    <img src="https://img.shields.io/badge/HTML5-Vanilla-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
-    <img src="https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
-    <img src="https://img.shields.io/badge/Node.js-20+-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
+    <img src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+    <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+    <img src="https://img.shields.io/badge/Motion-12-FFF312?style=for-the-badge&logo=framer&logoColor=black" alt="Motion" />
     <img src="https://img.shields.io/badge/Claude-Opus_5.5-D97757?style=for-the-badge&logo=anthropic&logoColor=white" alt="Claude" />
-    <img src="https://img.shields.io/badge/Anthropic_SDK-1.1.0-191919?style=for-the-badge&logo=anthropic&logoColor=white" alt="Anthropic SDK" />
-    <img src="https://img.shields.io/badge/PDF.js-3.11.174-B40000?style=for-the-badge" alt="PDF.js" />
-    <img src="https://img.shields.io/badge/Storage-localStorage-14507D?style=for-the-badge" alt="localStorage" />
-    <img src="https://img.shields.io/badge/Vercel-Serverless-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
+    <img src="https://img.shields.io/badge/PDF.js-6.4-B40000?style=for-the-badge" alt="PDF.js" />
+    <img src="https://img.shields.io/badge/Jest-30-C21325?style=for-the-badge&logo=jest&logoColor=white" alt="Jest" />
+    <img src="https://img.shields.io/badge/Playwright-E2E-2EAD33?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
+    <img src="https://img.shields.io/badge/Vercel-Deploy-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
 </div>
 
 <p align="center">
-    <i>A personal finance tool that answers "will I make it to the end of the month?" in words and colors, designed for people with dyscalculia.</i>
+    <i>Aplicación de finanzas personales que responde con palabras y colores si el dinero llega a fin de mes, pensada para personas con discalculia.</i>
 </p>
 
-## Monthly Verdict
+## Veredicto del Mes
 
-The home screen leads with a single answer instead of a table of figures. The verdict is computed from the month's income minus its expenses, and every amount shown in it is rounded ("about 250 €") so it can be read at a glance.
+La vista del mes empieza con una sola respuesta en lugar de una tabla de cifras. El veredicto sale de restar los gastos a los ingresos del mes (`summarize` en `lib/finance.ts`), y las cantidades que lo acompañan van redondeadas con `roughAmount` para leerse de un vistazo.
 
-| Verdict | Condition | Color | Extra guidance |
+| Veredicto | Condición | Color | Información extra |
 |---|---|---|---|
-| **Sí, llegas a fin de mes** | Money left is 10% of income or more | Green | Amount left per remaining day |
-| **Llegas, pero muy justo** | Money left is under 10% of income | Amber | Amount left for unexpected costs |
-| **No llegas este mes** | Expenses exceed income | Red | Amount missing |
-| **Falta apuntar lo que cobras** | Expenses recorded but no income | Amber | Total spent so far |
+| **Sí, llegas a fin de mes** | Queda el 10 % de los ingresos o más | Turquesa | Dinero disponible por día restante |
+| **Llegas, pero muy justo** | Queda menos del 10 % de los ingresos | Ámbar | Dinero que queda para imprevistos |
+| **No llegas este mes** | Los gastos superan a los ingresos | Rojo | Dinero que falta |
+| **Falta apuntar lo que cobras** | Hay gastos pero ningún ingreso | Ámbar | Total gastado hasta ahora |
+| **Aún no hay nada este mes** | No hay apuntes | Neutro | Accesos a apuntar o subir extracto |
 
-## Spending Categories
+## Categorías de Gasto
 
-Every expense belongs to one of six categories, each with its own icon and color so entries can be recognized without reading numbers. Categories also drive the money bar and the per-category breakdown, which describes each share in words ("a third of what comes in").
+Cada gasto pertenece a una de seis categorías, con icono y color propios (tokens `--cat-*` en ambos temas) para reconocerlas sin leer números. Las categorías forman la barra del dinero y el desglose, que describe cada parte con palabras («un tercio de lo que entra») mediante `shareWord`.
 
-| Category | Typical entries | Auto-detected keywords |
+| Categoría | Apuntes típicos | Palabras clave del lector simple |
 |---|---|---|
-| **Casa** | Rent, mortgage, community fees | `alquiler`, `hipoteca`, `comunidad` |
-| **Comida** | Groceries | `mercadona`, `carrefour`, `lidl` |
-| **Transporte** | Fuel, public transport, car | `repsol`, `renfe`, `parking` |
-| **Facturas** | Utilities, phone, insurance | `endesa`, `movistar`, `mapfre` |
-| **Ocio** | Eating out, subscriptions, clothing | `netflix`, `spotify`, `zara` |
-| **Otros** | Anything else | Fallback |
+| **Casa** | Alquiler, hipoteca, comunidad | `alquiler`, `hipoteca`, `comunidad` |
+| **Comida** | Supermercado, mercado | `mercadona`, `carrefour`, `lidl` |
+| **Transporte** | Gasolina, transporte público, coche | `repsol`, `renfe`, `parking` |
+| **Facturas** | Luz, agua, móvil, seguros | `endesa`, `movistar`, `mapfre` |
+| **Ocio** | Restaurantes, suscripciones, ropa | `netflix`, `spotify`, `zara` |
+| **Otros** | Todo lo demás | Valor por defecto |
 
-## Bank Statement Import
+## Importación del Extracto
 
-Users can upload the PDF statement downloaded from their bank. The PDF is parsed in the browser with **PDF.js**, so the file itself never leaves the device; only the extracted text lines are sent to `/api/extracto`. Every detected transaction is shown for review, with a checkbox and an editable category, before anything is saved.
+El usuario puede subir el extracto en PDF que descarga de su banco. El texto se extrae en el navegador con **PDF.js**, así que el archivo nunca sale del dispositivo; solo las líneas de texto viajan a `/api/statement`. Todos los movimientos se muestran para revisarlos, con casilla y categoría editable, antes de guardarse en el mes de su fecha.
 
-| Stage | Where it runs | Detail |
+| Fase | Dónde se ejecuta | Detalle |
 |---|---|---|
-| **Text extraction** | Browser (`pdfToLines`) | Groups PDF text items into lines by vertical position, up to 20 pages |
-| **AI parsing** | Vercel function (`api/extracto.js`) | Claude returns transactions validated against a JSON schema |
-| **Fallback parsing** | Browser (`heuristicParse`) | Regex match on date and Spanish-format amount when the API is unavailable |
-| **Review** | Browser (`renderReview`) | User confirms or discards each transaction before saving |
+| **Extracción de texto** | Navegador (`pdfToLines`) | Agrupa el texto del PDF en líneas por posición vertical, hasta 20 páginas |
+| **Lectura con IA** | Servidor (`app/api/statement/route.ts`) | Claude devuelve los movimientos según un esquema JSON, validados con `cleanTransactions` |
+| **Lectura simple** | Navegador (`parseLines`) | Expresión regular de fecha e importe en formato español si la API no está disponible |
+| **Revisión** | Navegador (`StatementImport`) | El usuario confirma o descarta cada movimiento antes de guardar |
 
-## Recurring Entries
+## Apuntes Recurrentes
 
-Entries marked "Se repite todos los meses" carry a start month (`mes`) and an optional end month (`hasta`). `movsFor(month)` includes every recurring entry whose range covers the selected month, so rent or a salary only has to be entered once. Deleting a recurring entry offers two options: remove it from the current month onward, or delete it from every month.
+Los apuntes marcados con «Se repite todos los meses» guardan un mes de inicio (`month`) y un mes final opcional (`until`). `entriesFor` incluye cada apunte recurrente cuyo rango cubre el mes elegido, así que la nómina o el alquiler se apuntan una sola vez. Al borrar uno recurrente se puede quitar desde el mes actual o borrar de todos los meses.
 
 ## System Architecture
 
 | Component | Role |
 |---|---|
-| **`index.html`** | Single page holding markup, styles and logic, with no build step |
-| **Monthly view** | Renders the verdict, the money bar, the category breakdown and the entry list |
-| **Entry form** | Captures income or expenses with large category buttons and a single amount field |
-| **PDF importer** | Extracts statement text in the browser and drives the review list |
-| **`api/extracto.js`** | Serverless function that sends statement text to Claude and returns structured transactions |
-| **Claude API** | Reads Spanish bank statements and classifies each transaction |
-| **localStorage** | Stores entries under `saludeconomica.movs` on the user's device |
+| **`app/layout.tsx`** | Metadatos, script de tema, JSON-LD, proveedores de idioma y animación, cabecera y pie |
+| **`app/page.tsx`** | Estado de apuntes, mes, vista activa y avisos; datos de ejemplo etiquetados cuando no hay apuntes |
+| **Vista del mes** | `Verdict`, `MoneyBreakdown` y `EntryList` en tres columnas desde 1200 px |
+| **Formulario** | `EntryForm` con tipo, categoría por icono, importe, nota e interruptor de recurrente |
+| **Importador** | `StatementImport` y `DropZone`: lee el PDF, llama a la API y muestra la revisión |
+| **Lógica** | `lib/finance.ts`, `lib/statement.ts`, `lib/storage.ts`, sin React y con tests |
+| **API del extracto** | `app/api/statement/route.ts` con límite por IP y llamada a Claude |
+| **Claude API** | Lee extractos de bancos españoles y clasifica cada movimiento |
+| **localStorage** | Guarda los apuntes en `salud-economica.entries`, solo en el dispositivo |
 
 ## Technology Stack
 
-- **Frontend**: HTML5, CSS custom properties with light and dark themes, vanilla JavaScript
-- **Fonts**: Archivo, IBM Plex Sans, IBM Plex Mono (Google Fonts)
-- **PDF Parsing**: PDF.js 3.11.174 from cdnjs
-- **Backend/API**: Node.js 20+ serverless function on Vercel
-- **AI**: Claude Opus 5.5 via `@anthropic-ai/sdk` 1.1.0, structured JSON output, server-side refusal fallback
-- **Storage**: Browser `localStorage`
-- **Deployment**: Vercel, auto-deployed from `main`
+- **Frontend**: Next.js 16 (App Router), React 19, TypeScript 5 en modo estricto
+- **Estilos**: una hoja `app/globals.css` con variables CSS, tema oscuro por defecto y tema claro
+- **Animación**: Motion 12 con `reducedMotion="user"`
+- **PDF**: `pdfjs-dist` 6.4 cargado bajo demanda
+- **Backend/API**: ruta de Next.js en Node.js sobre Vercel
+- **IA**: Claude Opus 5.5 con `@anthropic-ai/sdk` 1.1, salida JSON con esquema y respaldo ante rechazos
+- **Almacenamiento**: `localStorage` del navegador
+- **Testing**: Jest 30 con ts-jest, Playwright para E2E
+- **Deployment**: Vercel, con CI en GitHub Actions sobre Node 22
 
 ## Key Features
 
-1. **Answer first, numbers second** — the month is summarized as one sentence and one color before any figure appears.
-2. **Rounded, worded amounts** — totals read as "about 250 €" and shares as "a third of what comes in".
-3. **Daily allowance** — the remaining money is divided by the days left in the month.
-4. **Visual money bar** — income is the full bar, each category is a colored block and the striped area is what is left.
-5. **Bank PDF import with review** — transactions are extracted and categorized automatically, then confirmed one by one.
-6. **Enter once, repeat monthly** — recurring income and expenses fill future months on their own.
-7. **Private by default** — entries stay on the device and the PDF file is never uploaded.
+1. **Primero la respuesta** — el mes se resume en una frase y un color antes de mostrar ninguna cifra.
+2. **Números amables** — los totales se leen como «unos 250 €» y las partes como «un tercio de lo que entra».
+3. **Dinero por día** — lo que queda se reparte entre los días que faltan para acabar el mes.
+4. **Barra del dinero** — los ingresos son la barra entera, cada categoría un color y lo rayado lo que queda.
+5. **Extracto del banco con revisión** — los movimientos se leen y clasifican solos, y se confirman uno a uno.
+6. **Se apunta una vez** — ingresos y gastos fijos aparecen solos en los meses siguientes.
+7. **Privado por defecto** — los apuntes se quedan en el dispositivo y el PDF nunca se sube.
+8. **Bilingüe** — interfaz completa en español e inglés.
 
 ## Testing Strategy
 
-There is no automated test suite yet. Each change is checked by rendering the page in headless Chromium (Playwright) at desktop and phone widths in light and dark themes, confirming there are no console errors or horizontal overflow, and syntax-checking the inline script and `api/extracto.js` with `node --check`. The deployed function is verified by calling `/api/extracto` on the production URL, and PDF import is checked manually with real bank statements.
+La lógica de `lib/` tiene tests unitarios con **Jest** (`lib/__tests__/`): importes, meses, recurrentes, veredictos, lector simple de extractos, validación de la respuesta de la API, almacenamiento, límite de peticiones y paridad de textos entre idiomas. `tests/e2e/app.test.js` arranca el build de producción y, con **Playwright**, crea apuntes a mano, importa un extracto PDF generado con `pdf-lib` y comprueba los archivos de SEO. GitHub Actions ejecuta `npm test` y `npm run build` en cada push y pull request.
+
+## Localization
+
+Todos los textos viven en `lib/strings.ts` con las mismas claves en `en` y `es`; un test falla si falta alguna. `LanguageProvider` arranca en inglés, recuerda el español en `localStorage("lang")` y actualiza `lang` del documento. Los importes y meses se formatean con `Intl` según el idioma (`lib/format.ts`).
 
 ## Project Setup
 
-1. Install dependencies:
+1. Instala las dependencias:
 
    ```bash
    npm install
    ```
 
-2. Create `.env.local`:
+2. Crea `.env.local`:
 
    ```env
-   # Claude API (optional: without it, PDF import uses the regex fallback)
-   ANTHROPIC_API_KEY=sk-ant-your-key
+   # Sitio
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+   # Claude API (solo servidor, opcional: sin ella se usa el lector simple)
+   ANTHROPIC_API_KEY=sk-ant-tu-clave
    ```
 
-3. Start the development server with the Vercel CLI, which serves `index.html` and the `api/` function together:
+3. Arranca el servidor de desarrollo:
 
    ```bash
    npm run dev
    ```
 
-4. Visit `http://localhost:3000`
+4. Abre `http://localhost:3000`
 
-5. To deploy, add `ANTHROPIC_API_KEY` under Settings, Environment Variables in the Vercel project and push to `main`.
+5. Para los tests E2E, compila y lánzalos:
+
+   ```bash
+   npm run build && npm run test:e2e
+   ```
 
 ---
 
