@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "¿Llego a fin de mes? Finanzas personales sencillas, pensadas para personas con discalculia.",
+  "description": "Will I make it to the end of the month? Simple personal finance designed for people with dyscalculia.",
   "dependencies": {
     "@anthropic-ai/sdk": "1.1.0"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "npx vercel@65.0.0 dev"
+  }
 }
