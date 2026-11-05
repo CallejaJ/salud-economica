@@ -1,6 +1,6 @@
 # Salud Económica
 
-<div align="center">
+<div align="left">
     <img src="https://img.shields.io/badge/HTML5-Vanilla-E34F26?style=for-the-badge&logo=html5&logoColor=white" alt="HTML5" />
     <img src="https://img.shields.io/badge/JavaScript-ES2022-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
     <img src="https://img.shields.io/badge/Node.js-20+-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" />
@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/Vercel-Serverless-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
 </div>
 
-<p align="center">
+<p align="left">
     <i>A personal finance tool that answers "will I make it to the end of the month?" in words and colors, designed for people with dyscalculia.</i>
 </p>
 
