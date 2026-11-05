@@ -1,0 +1,11 @@
+{
+  "name": "saludeconomica",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "¿Llego a fin de mes? Finanzas personales sencillas, pensadas para personas con discalculia.",
+  "dependencies": {
+    "@anthropic-ai/sdk": "1.1.0"
+  },
+  "engines": { "node": ">=20" }
+}
