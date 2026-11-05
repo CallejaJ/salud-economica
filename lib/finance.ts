@@ -5,6 +5,10 @@ export type Kind = "expense" | "income";
 export type Category = "home" | "food" | "transport" | "bills" | "leisure" | "other";
 export const CATEGORIES: Category[] = ["home", "food", "transport", "bills", "leisure", "other"];
 
+/** How often a recurring entry repeats, in months. */
+export type Every = 1 | 2 | 3 | 12;
+export const EVERY: Every[] = [1, 2, 3, 12];
+
 export interface Entry {
   id: string;
   kind: Kind;
@@ -15,8 +19,10 @@ export interface Entry {
   note: string;
   /** Month the entry belongs to, or the first month of a recurring entry (YYYY-MM). */
   month: string;
-  /** Repeats every month from `month` until `until` (inclusive) or forever. */
+  /** Repeats from `month` until `until` (inclusive) or forever. */
   recurring: boolean;
+  /** Months between repeats; missing means every month (entries saved before this field). */
+  every?: Every;
   until?: string;
   /** Booking date from a bank statement (YYYY-MM-DD). */
   date?: string;
@@ -49,6 +55,16 @@ export function daysInMonth(key: string): number {
   return new Date(y, m, 0).getDate();
 }
 
+/** Whole months from `from` to `to` (negative when `to` is earlier). */
+export function monthsBetween(from: string, to: string): number {
+  const [fy, fm] = from.split("-").map(Number);
+  const [ty, tm] = to.split("-").map(Number);
+  return (ty - fy) * 12 + (tm - fm);
+}
+
+/** Monthly amount to set aside so a charge that arrives every `every` months is covered. */
+export const monthlyShare = (amount: number, every: Every): number => amount / every;
+
 /** Days left including today when `key` is the current month, otherwise the whole month. */
 export function daysLeft(key: string, today: Date = new Date()): number {
   const total = daysInMonth(key);
@@ -68,9 +84,13 @@ export function parseAmount(text: string): number {
   return Number(s);
 }
 
-/** Entries that apply to a month: the month's own entries plus active recurring ones. */
+/** Entries that apply to a month: the month's own entries plus recurring ones that fall due in it. */
 export function entriesFor(entries: Entry[], key: string): Entry[] {
-  return entries.filter((e) => e.month === key || (e.recurring && e.month <= key && (!e.until || e.until >= key)));
+  return entries.filter((e) => {
+    if (e.month === key) return true;
+    if (!e.recurring || e.month > key || (e.until && e.until < key)) return false;
+    return monthsBetween(e.month, key) % (e.every ?? 1) === 0;
+  });
 }
 
 export function summarize(entries: Entry[]): Summary {

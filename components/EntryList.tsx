@@ -60,7 +60,7 @@ export default function EntryList({
                       {(e.note || e.recurring) && (
                         <span>
                           {e.note && t(CATEGORY_NAME[e.category])}
-                          {e.recurring && <span className="pill">{t("everyMonth")}</span>}
+                          {e.recurring && <span className="pill">{t(`every${e.every ?? 1}`)}</span>}
                         </span>
                       )}
                     </div>

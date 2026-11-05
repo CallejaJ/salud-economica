@@ -1,6 +1,8 @@
 import {
   daysLeft,
   entriesFor,
+  monthlyShare,
+  monthsBetween,
   parseAmount,
   rankCategories,
   roughAmount,
@@ -62,6 +64,38 @@ describe("entriesFor", () => {
   test("open-ended recurring entries never stop", () => {
     const salary = entry({ kind: "income", category: "income", recurring: true, month: "2026-01" });
     expect(entriesFor([salary], "2030-06")).toEqual([salary]);
+  });
+});
+
+describe("frequency", () => {
+  test("monthsBetween counts across years", () => {
+    expect(monthsBetween("2026-11", "2027-02")).toBe(3);
+    expect(monthsBetween("2026-11", "2026-09")).toBe(-2);
+  });
+
+  test("quarterly and yearly entries appear only when due", () => {
+    const insurance = entry({ recurring: true, every: 3, month: "2026-11" });
+    const tax = entry({ recurring: true, every: 12, month: "2026-05" });
+    const due = (key: string) => entriesFor([insurance, tax], key).length;
+    expect(["2026-11", "2026-12", "2027-01", "2027-02"].map(due)).toEqual([1, 0, 0, 1]);
+    expect(due("2027-05")).toBe(2);
+    expect(due("2027-06")).toBe(0);
+  });
+
+  test("bimonthly entries respect their end month", () => {
+    const water = entry({ recurring: true, every: 2, month: "2026-01", until: "2026-05" });
+    expect(entriesFor([water], "2026-05")).toEqual([water]);
+    expect(entriesFor([water], "2026-07")).toEqual([]);
+  });
+
+  test("entries saved without a frequency repeat every month", () => {
+    const rent = entry({ recurring: true, month: "2026-01" });
+    expect(entriesFor([rent], "2026-04")).toEqual([rent]);
+  });
+
+  test("monthlyShare spreads the charge over its months", () => {
+    expect(monthlyShare(960, 3)).toBe(320);
+    expect(monthlyShare(600, 12)).toBe(50);
   });
 });
 

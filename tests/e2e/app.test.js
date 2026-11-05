@@ -81,6 +81,38 @@ test('shows a labeled example, then the real verdict after adding entries', asyn
   await page.close();
 });
 
+test('repeats a quarterly expense only in the months it falls due', async () => {
+  const page = await browser.newPage();
+  await page.goto(BASE);
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+
+  await page.click('#tab-add');
+  await page.click('#kind-income');
+  await page.fill('#amount', '1000');
+  await page.check('#recurring');
+  await page.click('#save');
+  await page.waitForSelector('#verdict[data-verdict="good"]');
+
+  await page.click('#tab-add');
+  await page.click('[data-cat="bills"]');
+  await page.fill('#amount', '960');
+  await page.check('#recurring');
+  await page.click('[data-every="3"]');
+  assert.match(await page.textContent('#every-hint'), /320/);
+  await page.click('#save');
+  await page.waitForSelector('#verdict[data-verdict="tight"]');
+
+  const next = page.locator('.month-btn').nth(1);
+  await next.click();
+  await page.waitForSelector('#verdict[data-verdict="good"]');
+  await next.click();
+  await page.waitForSelector('#verdict[data-verdict="good"]');
+  await next.click();
+  await page.waitForSelector('#verdict[data-verdict="tight"]');
+  await page.close();
+});
+
 test('imports a bank statement PDF after review', async () => {
   const page = await browser.newPage();
   await page.goto(BASE);
