@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
-import { CATEGORIES, parseAmount, type Category, type Kind } from "@/lib/finance";
+import { CATEGORIES, EVERY, monthlyShare, parseAmount, roughAmount, type Category, type Every, type Kind } from "@/lib/finance";
+import { euros } from "@/lib/format";
 import CategoryBadge from "./CategoryBadge";
 import { CATEGORY_HINT, CATEGORY_NAME } from "./labels";
 import { MinusIcon, PlusIcon } from "./icons";
@@ -14,16 +15,18 @@ export interface EntryDraft {
   amount: number;
   note: string;
   recurring: boolean;
+  every?: Every;
 }
 
-/** Manual entry: expense or income, a category picked by icon, one amount field and a recurring switch. */
+/** Manual entry: expense or income, a category picked by icon, one amount field and a recurring switch with its frequency. */
 export default function EntryForm({ onSave }: { onSave: (draft: EntryDraft) => boolean }) {
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [kind, setKind] = useState<Kind>("expense");
   const [category, setCategory] = useState<Category>("food");
   const [amount, setAmount] = useState("");
   const [note, setNote] = useState("");
   const [recurring, setRecurring] = useState(false);
+  const [every, setEvery] = useState<Every>(1);
   const [error, setError] = useState<string | null>(null);
 
   function submit(e: React.FormEvent) {
@@ -40,11 +43,13 @@ export default function EntryForm({ onSave }: { onSave: (draft: EntryDraft) => b
       amount: Math.round(n * 100) / 100,
       note: note.trim().slice(0, 80),
       recurring,
+      ...(recurring ? { every } : {}),
     });
     if (ok) {
       setAmount("");
       setNote("");
       setRecurring(false);
+      setEvery(1);
       setError(null);
     } else setError(t("saveError"));
   }
@@ -110,6 +115,24 @@ export default function EntryForm({ onSave }: { onSave: (draft: EntryDraft) => b
             <small>{t("recurringHint")}</small>
           </span>
         </label>
+
+        {recurring && (
+          <div className="field">
+            <label id="everyLabel">{t("everyLabel")}</label>
+            <div className="every-pick" role="group" aria-labelledby="everyLabel">
+              {EVERY.map((n) => (
+                <button key={n} type="button" data-every={n} className={every === n ? "active" : undefined} aria-pressed={every === n} onClick={() => setEvery(n)}>
+                  {t(`every${n}`)}
+                </button>
+              ))}
+            </div>
+            {every > 1 && parseAmount(amount) > 0 && (
+              <small id="every-hint" className="field-hint">
+                {t("everyHint", every, euros(roughAmount(monthlyShare(parseAmount(amount), every)), lang))}
+              </small>
+            )}
+          </div>
+        )}
 
         <button type="submit" id="save" className="primary wide">
           {t("save")}

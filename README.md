@@ -54,7 +54,16 @@ El usuario puede subir el extracto en PDF que descarga de su banco. El texto se 
 
 ## Apuntes Recurrentes
 
-Los apuntes marcados con «Se repite todos los meses» guardan un mes de inicio (`month`) y un mes final opcional (`until`). `entriesFor` incluye cada apunte recurrente cuyo rango cubre el mes elegido, así que la nómina o el alquiler se apuntan una sola vez. Al borrar uno recurrente se puede quitar desde el mes actual o borrar de todos los meses.
+Los apuntes marcados con «Se repite» guardan un mes de inicio (`month`), una frecuencia (`every`) y un mes final opcional (`until`). `entriesFor` incluye cada apunte recurrente que toca en el mes elegido, así que la nómina, el agua o el seguro se apuntan una sola vez.
+
+| Frecuencia | `every` | Ejemplo |
+|---|---|---|
+| Cada mes | 1 | Nómina, alquiler, móvil |
+| Cada 2 meses | 2 | Agua, luz en algunas compañías |
+| Cada 3 meses | 3 | Comunidad, seguro trimestral |
+| Cada año | 12 | IBI, seguro del coche |
+
+Cuando el gasto no es mensual, el formulario dice cuánto conviene apartar cada mes para tenerlo listo (importe ÷ meses, redondeado). Los apuntes guardados antes de existir `every` se repiten cada mes. Al borrar uno recurrente se puede quitar desde el mes actual o borrar de todos los meses.
 
 ## System Architecture
 

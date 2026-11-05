@@ -1299,6 +1299,32 @@ button.big-opt.active,
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
+.every-pick {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.every-pick button {
+  padding: 10px 6px;
+  border-radius: 12px;
+  border-width: 2px;
+  font-weight: 600;
+  font-size: 13px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.every-pick button.active {
+  border-color: var(--accent);
+  background: var(--glow);
+}
+
+@media (max-width: 480px) {
+  .every-pick {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .amount-input {
   display: flex;
   align-items: center;
