@@ -1,0 +1,101 @@
+"use client";
+
+import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { useLang } from "@/lib/i18n";
+import type { Entry } from "@/lib/finance";
+import { euros, monthLabel } from "@/lib/format";
+import CategoryBadge from "./CategoryBadge";
+import { CATEGORY_NAME } from "./labels";
+import { PlusIcon, TrashIcon } from "./icons";
+
+/** Entries of the selected month, income first, with an inline delete confirmation. */
+export default function EntryList({
+  entries,
+  month,
+  readOnly,
+  onAdd,
+  onDelete,
+  onStopFrom,
+}: {
+  entries: Entry[];
+  month: string;
+  readOnly: boolean;
+  onAdd: () => void;
+  onDelete: (id: string) => void;
+  onStopFrom: (id: string) => void;
+}) {
+  const { t, lang } = useLang();
+  const [confirm, setConfirm] = useState<string | null>(null);
+  const sorted = [...entries].sort((a, b) => (a.kind === b.kind ? b.amount - a.amount : a.kind === "income" ? -1 : 1));
+
+  return (
+    <motion.section
+      className="panel entries"
+      aria-labelledby="entriesTitle"
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
+    >
+      <div className="panel-head">
+        <h2 id="entriesTitle">{t("entriesTitle")}</h2>
+        <button type="button" className="secondary small" onClick={onAdd}>
+          <PlusIcon /> {t("add")}
+        </button>
+      </div>
+
+      {sorted.length === 0 ? (
+        <p className="empty">{t("entriesEmpty", monthLabel(month, lang))}</p>
+      ) : (
+        <ul id="entry-list" className="entry-list">
+          <AnimatePresence initial={false}>
+            {sorted.map((e) => {
+              const name = e.note || t(CATEGORY_NAME[e.category]);
+              return (
+                <motion.li key={e.id} layout initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: 20 }}>
+                  <div className="entry">
+                    <CategoryBadge category={e.category} size="sm" />
+                    <div className="entry-main">
+                      <b>{name}</b>
+                      {(e.note || e.recurring) && (
+                        <span>
+                          {e.note && t(CATEGORY_NAME[e.category])}
+                          {e.recurring && <span className="pill">{t("everyMonth")}</span>}
+                        </span>
+                      )}
+                    </div>
+                    <b className={`entry-amount${e.kind === "income" ? " in" : ""}`}>
+                      {e.kind === "income" ? "+" : "−"}
+                      {euros(e.amount, lang)}
+                    </b>
+                    {!readOnly && (
+                      <button type="button" className="icon" aria-label={t("deleteEntry", name)} onClick={() => setConfirm(confirm === e.id ? null : e.id)}>
+                        <TrashIcon />
+                      </button>
+                    )}
+                  </div>
+                  {confirm === e.id && (
+                    <div className="confirm" role="group" aria-label={t("deleteConfirm")}>
+                      <span>{e.recurring ? t("deleteRecurring") : t("deleteConfirm")}</span>
+                      {e.recurring && (
+                        <button type="button" className="secondary small" onClick={() => { setConfirm(null); onStopFrom(e.id); }}>
+                          {t("deleteFromNow")}
+                        </button>
+                      )}
+                      <button type="button" className="danger small" onClick={() => { setConfirm(null); onDelete(e.id); }}>
+                        {e.recurring ? t("deleteAll") : t("deleteYes")}
+                      </button>
+                      <button type="button" className="link" onClick={() => setConfirm(null)}>
+                        {t("cancel")}
+                      </button>
+                    </div>
+                  )}
+                </motion.li>
+              );
+            })}
+          </AnimatePresence>
+        </ul>
+      )}
+    </motion.section>
+  );
+}

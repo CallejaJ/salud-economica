@@ -1,0 +1,27 @@
+# Salud Económica
+
+> Free personal finance web app that tells people, in words and colors, whether their money lasts until the end of the month. Designed for people who find numbers hard, including people with dyscalculia. Data stays on the user's device.
+
+Salud Económica is made by Jorge Calleja (Diseño Web Málaga, Andalucía, Spain). It is in public beta and free to use. The interface is available in English and Spanish.
+
+## What it does
+
+- Shows one verdict per month: green (you make it), amber (only just, or income missing) or red (you are short), with rounded amounts such as "about 250 €".
+- Divides the money left by the days left in the month to give a daily allowance.
+- Draws income as a full bar split by spending category (home, food, transport, bills, leisure, other) and describes each share in words ("a third of what comes in").
+- Lets users add income and expenses by hand, with large category buttons and a "repeats every month" switch.
+- Imports a bank statement PDF: the text is extracted in the browser, sorted into transactions, and every transaction is reviewed before it is saved.
+
+## Privacy
+
+- Entries are stored only in the browser (localStorage). There is no account.
+- The PDF file is never uploaded; only its text is sent to the server to be sorted, and it is not stored.
+
+## Links
+
+- App: https://salud-economica.vercel.app/
+- Author: https://jorgecalleja.dev
+
+## En español
+
+Salud Económica es una aplicación web gratuita de finanzas personales que responde, con palabras y colores, si el dinero llega a fin de mes. Está pensada para personas a las que les cuestan los números, también personas con discalculia: las cifras van redondeadas, cada categoría de gasto tiene su icono y su color, y el extracto del banco en PDF se puede importar y revisar antes de guardarlo. Los datos se guardan solo en el navegador del usuario. La hace Jorge Calleja (Diseño Web Málaga).
