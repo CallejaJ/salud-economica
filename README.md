@@ -1,6 +1,6 @@
 # Salud Económica
 
-<div align="center">
+<div align="left">
     <img src="https://img.shields.io/badge/Next.js-16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
     <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
     <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
@@ -12,7 +12,7 @@
     <img src="https://img.shields.io/badge/Vercel-Deploy-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
 </div>
 
-<p align="center">
+<p align="left">
     <i>Aplicación de finanzas personales que responde con palabras y colores si el dinero llega a fin de mes, pensada para personas con discalculia.</i>
 </p>
 
