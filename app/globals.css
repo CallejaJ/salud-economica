@@ -890,6 +890,31 @@ button.month-btn {
   transform: rotate(180deg);
 }
 
+/* Backup: download or load a JSON copy of the entries */
+.backup {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 24px;
+  flex-wrap: wrap;
+}
+
+.backup .panel-sub {
+  margin: 0;
+}
+
+.backup-text {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.backup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 /* Three-column month view: verdict | money | entries */
 .grid-3 {
   display: grid;

@@ -65,6 +65,15 @@ Los apuntes marcados con «Se repite» guardan un mes de inicio (`month`), una f
 
 Cuando el gasto no es mensual, el formulario dice cuánto conviene apartar cada mes para tenerlo listo (importe ÷ meses, redondeado). Los apuntes guardados antes de existir `every` se repiten cada mes. Al borrar uno recurrente se puede quitar desde el mes actual o borrar de todos los meses.
 
+## Copia de Seguridad
+
+Los apuntes viven solo en el navegador, así que la vista del mes incluye un panel para guardarlos en un archivo JSON y recuperarlos después, en el mismo dispositivo o en otro. Nada pasa por el servidor.
+
+| Acción | Qué hace |
+|---|---|
+| **Descargar copia** | Baja `salud-economica-AAAA-MM-DD.json` con todos los apuntes (`app`, `version`, `exportedAt`, `entries`) |
+| **Cargar una copia** | Lee un archivo descargado antes, valida cada apunte con `parseBackup` y añade solo los que no están ya guardados (mismo `id`) |
+
 ## System Architecture
 
 | Component | Role |
@@ -74,7 +83,8 @@ Cuando el gasto no es mensual, el formulario dice cuánto conviene apartar cada 
 | **Vista del mes** | `Verdict`, `MoneyBreakdown` y `EntryList` en tres columnas desde 1200 px |
 | **Formulario** | `EntryForm` con tipo, categoría por icono, importe, nota e interruptor de recurrente |
 | **Importador** | `StatementImport` y `DropZone`: lee el PDF, llama a la API y muestra la revisión |
-| **Lógica** | `lib/finance.ts`, `lib/statement.ts`, `lib/storage.ts`, sin React y con tests |
+| **Copia de seguridad** | `BackupPanel` descarga y carga el archivo JSON con `lib/backup.ts` |
+| **Lógica** | `lib/finance.ts`, `lib/statement.ts`, `lib/storage.ts`, `lib/backup.ts`, sin React y con tests |
 | **API del extracto** | `app/api/statement/route.ts` con límite por IP y llamada a Claude |
 | **Claude API** | Lee extractos de bancos españoles y clasifica cada movimiento |
 | **localStorage** | Guarda los apuntes en `salud-economica.entries`, solo en el dispositivo |

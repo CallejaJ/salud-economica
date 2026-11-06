@@ -129,6 +129,39 @@ test('imports a bank statement PDF after review', async () => {
   await page.close();
 });
 
+test('downloads a JSON copy and loads it back after the data is gone', async () => {
+  const page = await browser.newPage({ acceptDownloads: true });
+  await page.goto(BASE);
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  assert.equal(await page.isDisabled('#backup-download'), true);
+
+  await page.click('#tab-add');
+  await page.click('#kind-income');
+  await page.fill('#amount', '1000');
+  await page.click('#save');
+  await page.waitForSelector('#verdict[data-verdict="good"]');
+
+  const [download] = await Promise.all([page.waitForEvent('download'), page.click('#backup-download')]);
+  assert.match(download.suggestedFilename(), /^salud-economica-\d{4}-\d{2}-\d{2}\.json$/);
+  const file = path.join(tmp, 'copia.json');
+  await download.saveAs(file);
+  const backup = JSON.parse(fs.readFileSync(file, 'utf8'));
+  assert.equal(backup.entries.length, 1);
+
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.waitForSelector('.example-badge');
+  await page.setInputFiles('#backup-file', file);
+  await page.waitForSelector('.example-badge', { state: 'detached' });
+  await page.waitForFunction(() => document.querySelectorAll('#entry-list li').length === 1);
+
+  await page.setInputFiles('#backup-file', file);
+  await page.waitForSelector('#toast');
+  assert.equal(await page.locator('#entry-list li').count(), 1);
+  await page.close();
+});
+
 test('serves the SEO files', async () => {
   for (const p of ['robots.txt', 'sitemap.xml', 'llms.txt', 'site.webmanifest', 'favicon.ico', 'og.png']) {
     assert.equal((await fetch(BASE + p)).status, 200, p);
