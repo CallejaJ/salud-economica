@@ -17,6 +17,7 @@ Salud Económica is a Next.js app served by Vercel. The page runs in the browser
 | **Statement logic** | `lib/statement.ts` | `parseLines`, `guessCategory`, `cleanTransactions` |
 | **PDF text** | `lib/pdfText.ts` | `pdfToLines` with `pdfjs-dist`, up to 20 pages |
 | **Storage** | `lib/storage.ts` | `loadEntries`, `saveEntries` on `localStorage` |
+| **Backup** | `lib/backup.ts`, `components/BackupPanel.tsx` | `toBackup`, `parseBackup`, `mergeEntries`; JSON download and load, all in the browser |
 | **Statement API** | `app/api/statement/route.ts` | Rate limit, Claude call with a JSON schema, validation |
 | **Rate limit** | `lib/rateLimit.ts` | In-memory fixed window per IP |
 | **Strings and i18n** | `lib/strings.ts`, `lib/i18n.tsx` | English and Spanish dictionaries and the typed `t()` helper |

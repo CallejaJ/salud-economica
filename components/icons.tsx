@@ -18,6 +18,12 @@ export const UploadIcon = ({ size = 44, className }: P) => (
     <path d="M12 17v-6M9 14l3-3 3 3" />
   </svg>
 );
+export const DownloadIcon = ({ size = 16 }: P) => (
+  <svg {...base(size)}>
+    <path d="M12 4v11M7 10l5 5 5-5" />
+    <path d="M5 20h14" />
+  </svg>
+);
 export const LockIcon = ({ size = 18 }: P) => (
   <svg {...base(size)}>
     <rect x="4" y="11" width="16" height="10" rx="2" />
