@@ -2,8 +2,27 @@
 // Framework-free so it can be unit tested and reused on the server.
 
 export type Kind = "expense" | "income";
-export type Category = "home" | "food" | "transport" | "bills" | "leisure" | "other";
-export const CATEGORIES: Category[] = ["home", "food", "transport", "bills", "leisure", "other"];
+export type Category =
+  | "home"
+  | "food"
+  | "transport"
+  | "bills"
+  | "leisure"
+  | "sports"
+  | "school"
+  | "gifts"
+  | "other";
+export const CATEGORIES: Category[] = [
+  "home",
+  "food",
+  "transport",
+  "bills",
+  "leisure",
+  "sports",
+  "school",
+  "gifts",
+  "other",
+];
 
 /** How often a recurring entry repeats, in months. */
 export type Every = 1 | 2 | 3 | 12;

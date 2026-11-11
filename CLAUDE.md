@@ -61,7 +61,7 @@ This file is the master standard for every project by **Jorge Calleja** (Diseño
 
 Follow `docs/design-system.md`. Project-specific choices:
 
-- **Category tokens** `--cat-home`, `--cat-food`, `--cat-transport`, `--cat-bills`, `--cat-leisure`, `--cat-other`, `--cat-income`, defined in both themes.
+- **Category tokens** `--cat-home`, `--cat-food`, `--cat-transport`, `--cat-bills`, `--cat-leisure`, `--cat-sports`, `--cat-school`, `--cat-gifts`, `--cat-other`, `--cat-income`, defined in both themes.
 - **Verdict card** uses larger type than the standard (26 px title, 18 px line) on purpose, for readers with dyscalculia; see `docs/decisions/0004-larger-verdict-type.md`.
 - **Month view** is three columns from 1200 px, two from 900 px, one below.
 

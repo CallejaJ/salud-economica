@@ -1,7 +1,7 @@
 // Bank statement parsing: turns the text lines of a PDF statement into transactions.
 // The server route asks Claude first; `parseLines` is the offline fallback.
 
-import type { Category } from "./finance";
+import { CATEGORIES, type Category } from "./finance";
 
 export interface Transaction {
   /** YYYY-MM-DD */
@@ -17,6 +17,9 @@ const KEYWORDS: [Category, RegExp][] = [
   ["food", /mercadona|carrefour|lidl|aldi|\bdia\b|eroski|alcampo|consum|supermercado|hipercor|ahorramas|grocer/],
   ["transport", /gasolin|repsol|cepsa|\bbp\b|galp|renfe|\bemt\b|metro|taxi|uber|cabify|parking|peaje|fuel/],
   ["bills", /endesa|iberdrola|naturgy|\bluz\b|agua|\bgas\b|movistar|vodafone|orange|yoigo|digi|seguro|mapfre|\baxa\b|insurance/],
+  ["sports", /gimnasio|\bgym\b|basic.?fit|mcfit|holmes place|decathlon|p[aá]del|piscina|polideportivo|club deportivo/],
+  ["school", /colegio|escuela|matr[ií]cula|guarder[ií]a|comedor escolar|\bampa\b|uniforme|libros de texto/],
+  ["gifts", /regalo|florister[ií]a|juguet|toys ?r ?us|interflora/],
   ["leisure", /netflix|spotify|hbo|disney|amazon|restaurante|\bbar\b|cine|zara|primark|glovo|just eat/],
 ];
 
@@ -66,7 +69,7 @@ export function parseLines(lines: string[], year: number = new Date().getFullYea
 /** Keeps only well-formed transactions and fixes the category sign rule. */
 export function cleanTransactions(list: unknown): Transaction[] {
   if (!Array.isArray(list)) return [];
-  const cats = new Set(["home", "food", "transport", "bills", "leisure", "other"]);
+  const cats = new Set<string>(CATEGORIES);
   return list.flatMap((x): Transaction[] => {
     const t = x as Partial<Transaction>;
     const amount = Number(t?.amount);

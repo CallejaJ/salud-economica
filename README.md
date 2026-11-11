@@ -30,7 +30,7 @@ La vista del mes empieza con una sola respuesta en lugar de una tabla de cifras.
 
 ## Categorías de Gasto
 
-Cada gasto pertenece a una de seis categorías, con icono y color propios (tokens `--cat-*` en ambos temas) para reconocerlas sin leer números. Las categorías forman la barra del dinero y el desglose, que describe cada parte con palabras («un tercio de lo que entra») mediante `shareWord`.
+Cada gasto pertenece a una de nueve categorías (casa, comida, transporte, facturas, ocio, deportes, gastos colegio, regalos y otros), con icono y color propios (tokens `--cat-*` en ambos temas) para reconocerlas sin leer números. Las categorías forman la barra del dinero y el desglose, que describe cada parte con palabras («un tercio de lo que entra») mediante `shareWord`.
 
 | Categoría | Apuntes típicos | Palabras clave del lector simple |
 |---|---|---|

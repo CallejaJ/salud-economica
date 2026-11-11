@@ -110,6 +110,27 @@ const CATEGORY_PATHS: Record<string, React.ReactNode> = {
       <path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01" />
     </>
   ),
+  sports: (
+    <>
+      <path d="M6.5 6.5v11M17.5 6.5v11" />
+      <path d="M3.5 9.5v5M20.5 9.5v5" />
+      <path d="M6.5 12h11" />
+    </>
+  ),
+  school: (
+    <>
+      <path d="M2 9l10-5 10 5-10 5z" />
+      <path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5" />
+      <path d="M22 9v5" />
+    </>
+  ),
+  gifts: (
+    <>
+      <rect x="3" y="8" width="18" height="4" rx="1" />
+      <path d="M5 12v9h14v-9M12 8v13" />
+      <path d="M12 8C10.5 4 6 3.5 6 6s3 2 6 2c3 0 6 .5 6-2s-4.5-2-6 2" />
+    </>
+  ),
   other: (
     <>
       <circle cx="5" cy="12" r="1.6" />
