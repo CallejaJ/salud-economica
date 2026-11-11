@@ -96,6 +96,38 @@ export function daysLeft(key: string, today: Date = new Date()): number {
   return key === monthKey(today) ? total - today.getDate() + 1 : total;
 }
 
+export type PaceLevel = "calm" | "even" | "fast" | "over";
+
+export interface Pace {
+  /** Today's day of the month, counting today as passed. */
+  day: number;
+  days: number;
+  spent: number;
+  income: number;
+  level: PaceLevel;
+}
+
+/** How far ahead of the month the spending may run before the pace counts as "fast". */
+export const PACE_MARGIN = 0.1;
+
+/**
+ * Compares the share of the month that has passed with the share of the income already spent.
+ * Only for the current month and only when there is income; otherwise null.
+ */
+export function monthPace(summary: Pick<Summary, "income" | "expenses">, key: string, today: Date = new Date()): Pace | null {
+  const { income, expenses: spent } = summary;
+  if (key !== monthKey(today) || income <= 0) return null;
+  const days = daysInMonth(key);
+  const day = today.getDate();
+  const ahead = spent / income - day / days;
+  let level: PaceLevel;
+  if (spent >= income) level = "over";
+  else if (ahead <= 0) level = "calm";
+  else if (ahead <= PACE_MARGIN) level = "even";
+  else level = "fast";
+  return { day, days, spent, income, level };
+}
+
 /**
  * Parses an amount typed in Spanish or English format: "12,50", "1.234,56", "1,234.56", "25 €".
  * Returns NaN when the text is not a number.

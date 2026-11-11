@@ -11,6 +11,7 @@ import type { Transaction } from "@/lib/statement";
 import ViewTabs from "@/components/ViewTabs";
 import MonthNav from "@/components/MonthNav";
 import Verdict, { type Tab } from "@/components/Verdict";
+import MonthPace from "@/components/MonthPace";
 import MoneyBreakdown from "@/components/MoneyBreakdown";
 import EntryList from "@/components/EntryList";
 import { CATEGORY_NAME } from "@/components/labels";
@@ -146,7 +147,10 @@ export default function Home() {
 
       {tab === "month" && (
         <div className="grid-3">
-          <Verdict summary={summary} month={month} example={example} onGo={go} />
+          <div className="month-side">
+            <Verdict summary={summary} month={month} example={example} onGo={go} />
+            <MonthPace summary={summary} month={month} />
+          </div>
           <MoneyBreakdown summary={summary} />
           <EntryList entries={monthEntries} month={month} readOnly={example} onAdd={() => go("add")} onDelete={remove} onStopFrom={stopFrom} onRecategorize={recategorize} clearable={example ? 0 : clearableIn(entries, month).length} onClear={clearMonth} />
         </div>
