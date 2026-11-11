@@ -148,6 +148,18 @@ test('uploading the same statement again updates it, and a month can be cleared 
   assert.match(await page.textContent('#toast'), /3/);
   assert.equal(await page.locator('#entry-list .cat-leisure').count(), 1);
 
+  // Moving an entry by hand survives another upload of the same statement.
+  await page.locator('#entry-list button.cat-change').first().click();
+  await page.locator('#entry-list .cat-pick button[data-cat="school"]').click();
+  await page.waitForSelector('#entry-list .cat-school');
+  await page.click('#tab-import');
+  await page.setInputFiles('#statement-file', pdf);
+  await page.waitForSelector('#review', { timeout: 20000 });
+  await page.click('#review-save');
+  await page.waitForSelector('#verdict');
+  assert.equal(await page.locator('#entry-list li').count(), 3);
+  assert.equal(await page.locator('#entry-list .cat-school').count(), 1);
+
   await page.click('#clear-month');
   await page.click('#clear-month-yes');
   await page.waitForSelector('.example-badge');

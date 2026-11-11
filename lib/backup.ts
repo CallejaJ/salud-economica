@@ -46,6 +46,7 @@ export function cleanEntry(v: unknown): Entry | null {
   if (out.recurring && typeof e.until === "string" && MONTH.test(e.until)) out.until = e.until;
   if (typeof e.date === "string" && DAY.test(e.date)) out.date = e.date;
   if (e.source === "manual" || e.source === "statement") out.source = e.source;
+  if (e.categoryByHand === true && out.kind === "expense") out.categoryByHand = true;
   return out;
 }
 

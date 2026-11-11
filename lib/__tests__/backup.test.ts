@@ -32,6 +32,8 @@ test("cleans optional fields", () => {
   expect(cleanEntry({ ...b, recurring: false, every: 3, until: "2027-01" })).not.toHaveProperty("every");
   expect(cleanEntry({ ...b, note: 5, createdAt: "x" })).toMatchObject({ note: "", createdAt: 0 });
   expect(cleanEntry({ ...a, kind: "income", category: "food" })?.category).toBe("income");
+  expect(cleanEntry({ ...b, categoryByHand: true })).toHaveProperty("categoryByHand", true);
+  expect(cleanEntry({ ...b, categoryByHand: "yes" })).not.toHaveProperty("categoryByHand");
   expect(cleanEntry(null)).toBeNull();
 });
 

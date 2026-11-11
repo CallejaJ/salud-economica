@@ -1401,6 +1401,58 @@ button.danger {
   overflow: hidden;
 }
 
+/* Tapping an expense's icon or category name opens the category picker inside the same card */
+.entry-card.picking {
+  border-color: var(--accent);
+}
+
+button.cat-change {
+  padding: 0;
+  border: 0;
+  background: none;
+  border-radius: 8px;
+  line-height: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+button.cat-change:hover,
+button.cat-change[aria-expanded="true"] {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+button.link.cat-change-text {
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+
+button.link.cat-change-text:hover {
+  color: var(--accent);
+}
+
+.confirm-inner.recat > span,
+.confirm-inner.recat > .cat-pick {
+  flex: 1 1 100%;
+}
+
+/* Compact picker inside an entry: three columns at every width so it stays short */
+.cat-pick.cat-pick-sm {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.cat-pick.cat-pick-sm button {
+  gap: 4px;
+  padding: 6px 4px;
+  border-width: 1px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--text);
+}
+
 .confirm-inner {
   display: flex;
   flex-wrap: wrap;

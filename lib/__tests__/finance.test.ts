@@ -8,6 +8,7 @@ import {
   parseAmount,
   rankCategories,
   roughAmount,
+  setCategory,
   shareWord,
   shiftMonth,
   summarize,
@@ -188,10 +189,33 @@ describe("mergeStatement", () => {
     expect(entries).toHaveLength(4);
   });
 
+  it("keeps a category the user picked by hand", () => {
+    const saved = [imported({ id: "a", category: "school", categoryByHand: true })];
+    const { entries, updated } = mergeStatement(saved, [imported({ id: "new", category: "other" })]);
+    expect(updated).toBe(1);
+    expect(entries).toEqual(saved);
+  });
+
   it("matches one to one, so two equal charges on the same day stay two", () => {
     const saved = [imported({ id: "a" })];
     const { entries, added, updated } = mergeStatement(saved, [imported({ id: "b" }), imported({ id: "c" })]);
     expect({ added, updated }).toEqual({ added: 1, updated: 1 });
     expect(entries.map((e) => e.id)).toEqual(["a", "c"]);
+  });
+});
+
+describe("setCategory", () => {
+  it("moves one expense and marks it as picked by hand", () => {
+    const list = [entry({ id: "a", category: "other" }), entry({ id: "b", category: "other" })];
+    const next = setCategory(list, "a", "school");
+    expect(next[0]).toMatchObject({ id: "a", category: "school", categoryByHand: true });
+    expect(next[1]).toBe(list[1]);
+    expect(list[0].category).toBe("other");
+  });
+
+  it("leaves incomes and unknown ids alone", () => {
+    const list = [entry({ id: "i", kind: "income", category: "income" })];
+    expect(setCategory(list, "i", "food")).toEqual(list);
+    expect(setCategory(list, "x", "food")).toEqual(list);
   });
 });

@@ -32,6 +32,8 @@ La vista del mes empieza con una sola respuesta en lugar de una tabla de cifras.
 
 Cada gasto pertenece a una de nueve categorías (casa, comida, transporte, facturas, ocio, deportes, gastos colegio, regalos y otros), con icono y color propios (tokens `--cat-*` en ambos temas) para reconocerlas sin leer números. Las categorías forman la barra del dinero y el desglose, que describe cada parte con palabras («un tercio de lo que entra») mediante `shareWord`.
 
+Para cambiar la categoría de un gasto ya guardado basta con tocar su icono (o el nombre de la categoría) en **Apuntes de este mes** y elegir otra en el selector que se abre dentro de la misma tarjeta. El apunte queda marcado como elegido a mano (`categoryByHand`), así que volver a subir el mismo extracto no lo devuelve a la categoría automática.
+
 | Categoría | Apuntes típicos | Palabras clave del lector simple |
 |---|---|---|
 | **Casa** | Alquiler, hipoteca, comunidad | `alquiler`, `hipoteca`, `comunidad` |
@@ -43,7 +45,7 @@ Cada gasto pertenece a una de nueve categorías (casa, comida, transporte, factu
 
 ## Importación del Extracto
 
-El usuario puede subir el extracto en PDF que descarga de su banco. El texto se extrae en el navegador con **PDF.js**, así que el archivo nunca sale del dispositivo; solo las líneas de texto viajan a `/api/statement`. Todos los movimientos se muestran para revisarlos, con casilla y categoría editable, antes de guardarse en el mes de su fecha. Si se vuelve a subir el mismo extracto, los movimientos que ya estaban (mismo día, importe, signo y concepto) no se duplican: se actualiza su categoría con la elegida en la revisión.
+El usuario puede subir el extracto en PDF que descarga de su banco. El texto se extrae en el navegador con **PDF.js**, así que el archivo nunca sale del dispositivo; solo las líneas de texto viajan a `/api/statement`. Todos los movimientos se muestran para revisarlos, con casilla y categoría editable, antes de guardarse en el mes de su fecha. Si se vuelve a subir el mismo extracto, los movimientos que ya estaban (mismo día, importe, signo y concepto) no se duplican: se actualiza su categoría con la elegida en la revisión, salvo la de los apuntes que el usuario ya cambió a mano. Los conceptos con «comedor», «aula matinal» o «extraescolar» se clasifican como gastos colegio.
 
 | Fase | Dónde se ejecuta | Detalle |
 |---|---|---|

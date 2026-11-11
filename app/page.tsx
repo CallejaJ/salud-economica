@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
-import { clearableIn, entriesFor, mergeStatement, monthKey, newId, shiftMonth, summarize, type Entry } from "@/lib/finance";
+import { clearableIn, entriesFor, mergeStatement, monthKey, newId, setCategory, shiftMonth, summarize, type Category, type Entry } from "@/lib/finance";
 import { monthLabel } from "@/lib/format";
 import { loadEntries, saveEntries } from "@/lib/storage";
 import { mergeEntries } from "@/lib/backup";
@@ -13,6 +13,7 @@ import MonthNav from "@/components/MonthNav";
 import Verdict, { type Tab } from "@/components/Verdict";
 import MoneyBreakdown from "@/components/MoneyBreakdown";
 import EntryList from "@/components/EntryList";
+import { CATEGORY_NAME } from "@/components/labels";
 import EntryForm, { type EntryDraft } from "@/components/EntryForm";
 import StatementImport from "@/components/StatementImport";
 import HowItWorks from "@/components/HowItWorks";
@@ -111,6 +112,11 @@ export default function Home() {
     setToast(t("deleted"));
   }
 
+  function recategorize(id: string, category: Category) {
+    if (commit(setCategory(entries, id, category))) setToast(t("movedTo", t(CATEGORY_NAME[category])));
+    else setToast(t("saveError"));
+  }
+
   function clearMonth() {
     const gone = new Set(clearableIn(entries, month).map((e) => e.id));
     if (!gone.size) return;
@@ -142,7 +148,7 @@ export default function Home() {
         <div className="grid-3">
           <Verdict summary={summary} month={month} example={example} onGo={go} />
           <MoneyBreakdown summary={summary} />
-          <EntryList entries={monthEntries} month={month} readOnly={example} onAdd={() => go("add")} onDelete={remove} onStopFrom={stopFrom} clearable={example ? 0 : clearableIn(entries, month).length} onClear={clearMonth} />
+          <EntryList entries={monthEntries} month={month} readOnly={example} onAdd={() => go("add")} onDelete={remove} onStopFrom={stopFrom} onRecategorize={recategorize} clearable={example ? 0 : clearableIn(entries, month).length} onClear={clearMonth} />
         </div>
       )}
       {tab === "month" && loaded && <BackupPanel entries={entries} onRestore={restore} onNotice={setToast} onWipe={wipe} />}
