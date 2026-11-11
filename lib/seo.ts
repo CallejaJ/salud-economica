@@ -3,9 +3,9 @@ import { AUTHOR, GEO, SITE_NAME, SITE_URL, VERSION } from "./site";
 
 const en = STRINGS.en;
 
-export const SEO_TITLE = "Salud Económica: will your money last until the end of the month?";
+export const SEO_TITLE = "Salud Económica: ¿llegas a fin de mes?";
 export const SEO_DESCRIPTION =
-  "Free personal finance app designed for people with dyscalculia. Write down income and expenses or upload your bank PDF, and get the answer in words and colors. Data stays on your device.";
+  "App gratuita de finanzas personales pensada para personas con discalculia. Apunta ingresos y gastos o sube el PDF de tu banco y recibe la respuesta en palabras y colores. Tus datos no salen de tu dispositivo.";
 
 export const BREADCRUMBS = [
   { name: AUTHOR.name, url: AUTHOR.url },
