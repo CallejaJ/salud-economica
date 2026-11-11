@@ -8,7 +8,7 @@ Salud Económica is made by Jorge Calleja (Diseño Web Málaga, Andalucía, Spai
 
 - Shows one verdict per month: green (you make it), amber (only just, or income missing) or red (you are short), with rounded amounts such as "about 250 €".
 - Divides the money left by the days left in the month to give a daily allowance.
-- Draws income as a full bar split by spending category (home, food, transport, bills, leisure, other) and describes each share in words ("a third of what comes in").
+- Draws income as a full bar split by spending category (home, food, transport, bills, leisure, sports, school costs, gifts, other) and describes each share in words ("a third of what comes in").
 - Lets users add income and expenses by hand, with large category buttons and a "repeats" switch for bills that come every month, every 2 or 3 months, or once a year.
 - Imports a bank statement PDF: the text is extracted in the browser, sorted into transactions, and every transaction is reviewed before it is saved.
 

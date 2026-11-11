@@ -8,6 +8,9 @@ export const CATEGORY_NAME: Record<Category | "income", Key> = {
   transport: "catTransport",
   bills: "catBills",
   leisure: "catLeisure",
+  sports: "catSports",
+  school: "catSchool",
+  gifts: "catGifts",
   other: "catOther",
   income: "catIncome",
 };
@@ -18,5 +21,8 @@ export const CATEGORY_HINT: Record<Category, Key> = {
   transport: "hintTransport",
   bills: "hintBills",
   leisure: "hintLeisure",
+  sports: "hintSports",
+  school: "hintSchool",
+  gifts: "hintGifts",
   other: "hintOther",
 };

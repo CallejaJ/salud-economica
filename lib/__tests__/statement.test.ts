@@ -7,6 +7,9 @@ describe("guessCategory", () => {
     ["TRANSF. ALQUILER NOVIEMBRE", "home"],
     ["REPSOL ESTACION 123", "transport"],
     ["NETFLIX.COM", "leisure"],
+    ["BASIC-FIT SPAIN CUOTA", "sports"],
+    ["RECIBO COLEGIO SAN JOSE", "school"],
+    ["FLORISTERIA LA ROSA", "gifts"],
     ["BIZUM A PEPE", "other"],
   ])("%s -> %s", (text, cat) => expect(guessCategory(text)).toBe(cat));
 });

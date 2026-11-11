@@ -9,7 +9,7 @@ import { cleanTransactions } from "@/lib/statement";
 export const runtime = "nodejs";
 
 const MAX_CHARS = 200_000;
-const CATEGORIES = ["home", "food", "transport", "bills", "leisure", "other", "income"];
+const CATEGORIES = ["home", "food", "transport", "bills", "leisure", "sports", "school", "gifts", "other", "income"];
 
 const SCHEMA = {
   type: "object",
@@ -38,7 +38,7 @@ const SYSTEM = (year: number) =>
     "You read Spanish bank statements and extract only the account transactions: ignore balances, totals, headers and ads.",
     "amount is negative for charges and expenses and positive for credits and income.",
     "description is short and clear, at most 40 characters, in the statement's language (for example \"Mercadona\" instead of the full card code).",
-    "category: home (rent, mortgage, community fees), food (supermarkets), transport, bills (electricity, water, gas, phone, insurance), leisure (restaurants, subscriptions, clothes), other; use income for any positive amount.",
+    "category: home (rent, mortgage, community fees), food (supermarkets), transport, bills (electricity, water, gas, phone, insurance), leisure (restaurants, subscriptions, clothes), sports (gym, sports clubs, sports gear), school (school fees, canteen, books, uniforms), gifts (presents, flowers, toys), other; use income for any positive amount.",
     `If a date has no year, use ${year}.`,
   ].join(" ");
 
