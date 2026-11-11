@@ -2034,6 +2034,110 @@ button.big-opt.active,
   font-size: 13px;
 }
 
+/* Long entry lists: quick filters, a scroll inside the card with a fade while more is below, and on a phone the first few with "Show all" */
+.entries {
+  display: flex;
+  flex-direction: column;
+}
+
+.entry-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: -4px 0 14px;
+}
+
+.entry-filter button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.entry-filter button:hover {
+  border-color: var(--accent);
+}
+
+.entry-filter button.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--button-text);
+}
+
+.entry-scroll-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.entry-scroll {
+  max-height: 560px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  margin: -6px -8px;
+  padding: 6px 8px;
+  border-radius: 10px;
+}
+
+.entry-scroll:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* A mask instead of a colored overlay, so the fade works on any background and theme */
+.entry-scroll.more {
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 56px), transparent);
+}
+
+button.show-all {
+  display: none;
+  align-self: center;
+  margin-top: 14px;
+}
+
+/* Three columns: the card is as tall as its row, set by the money and verdict cards, and the list scrolls inside */
+@media (min-width: 1201px) {
+  .grid-3 .entries {
+    align-self: stretch;
+  }
+  .grid-3 .entry-scroll-wrap {
+    min-height: 320px;
+  }
+  .grid-3 .entry-scroll {
+    position: absolute;
+    inset: 0;
+    max-height: none;
+    margin: 0 -8px;
+    padding: 6px 8px;
+  }
+}
+
+/* One column: no inner scroll; the first few entries and a button for the rest */
+@media (max-width: 900px) {
+  .entry-scroll {
+    max-height: none;
+    overflow: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .entry-scroll.collapsed .entry-list > li:nth-child(n + 6) {
+    display: none;
+  }
+  .entry-scroll.collapsed {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 40px), transparent);
+  }
+  button.show-all {
+    display: inline-flex;
+  }
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
   .grid-3 {

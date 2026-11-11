@@ -239,3 +239,26 @@ test('shows the pace of the month only for the current month', async () => {
   await page.waitForSelector('#pace', { state: 'detached' });
   await page.close();
 });
+
+test('a long list of entries can be filtered and shows the first five on a phone', async () => {
+  const page = await browser.newPage({ viewport: { width: 375, height: 800 } });
+  await page.goto(BASE);
+  await page.evaluate(() => {
+    const month = new Date().toISOString().slice(0, 7);
+    const entries = [{ id: 'in', kind: 'income', category: 'income', amount: 1500, note: 'Salary', month, recurring: false }];
+    for (let i = 0; i < 9; i++) entries.push({ id: `e${i}`, kind: 'expense', category: 'food', amount: 20 + i, note: `Shop ${i}`, month, recurring: false });
+    localStorage.setItem('salud-economica.entries', JSON.stringify(entries));
+  });
+  await page.reload();
+  await page.waitForSelector('#entry-list');
+  assert.equal(await page.locator('#entry-list li:visible').count(), 5);
+  await page.click('#entries-more');
+  assert.equal(await page.locator('#entry-list li:visible').count(), 10);
+
+  await page.click('.entry-filter [data-filter="income"]');
+  await page.waitForFunction(() => document.querySelectorAll('#entry-list li').length === 1);
+  await page.click('.entry-filter [data-filter="expense"]');
+  await page.waitForFunction(() => document.querySelectorAll('#entry-list li').length === 9);
+  assert.equal(await page.locator('#entry-list .entry-amount.in').count(), 0);
+  await page.close();
+});
