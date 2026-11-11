@@ -28,6 +28,8 @@ La vista del mes empieza con una sola respuesta en lugar de una tabla de cifras.
 | **Falta apuntar lo que cobras** | Hay gastos pero ningún ingreso | Ámbar | Total gastado hasta ahora |
 | **Aún no hay nada este mes** | No hay apuntes | Neutro | Accesos a apuntar o subir extracto |
 
+Debajo, en el mes en curso, la tarjeta **Ritmo del mes** (`monthPace`) pone dos barras juntas: cuánto mes ha pasado y cuánto de lo que entra se ha gastado, con una raya en lo que tocaría haber gastado hoy. Una frase dice si vas bien (gastas por debajo de lo que toca), al ritmo (hasta 10 puntos por encima), algo deprisa (más) o si ya has gastado todo lo que entra.
+
 ## Categorías de Gasto
 
 Cada gasto pertenece a una de diez categorías (casa, comida, transporte, facturas, ocio, deportes, gastos colegio, extraescolares, regalos y otros), con icono y color propios (tokens `--cat-*` en ambos temas) para reconocerlas sin leer números. Las categorías forman la barra del dinero y el desglose, que describe cada parte con palabras («un tercio de lo que entra») mediante `shareWord`.
@@ -109,12 +111,13 @@ Los apuntes viven solo en el navegador, así que la vista del mes incluye un pan
 1. **Primero la respuesta** — el mes se resume en una frase y un color antes de mostrar ninguna cifra.
 2. **Números amables** — los totales se leen como «unos 250 €» y las partes como «un tercio de lo que entra».
 3. **Dinero por día** — lo que queda se reparte entre los días que faltan para acabar el mes.
-4. **Barra del dinero** — los ingresos son la barra entera, cada categoría un color y lo rayado lo que queda.
-5. **Extracto del banco con revisión** — los movimientos se leen y clasifican solos, y se confirman uno a uno.
-6. **Se apunta una vez** — ingresos y gastos fijos aparecen solos en los meses siguientes.
-7. **Privado por defecto** — los apuntes se quedan en el dispositivo y el PDF nunca se sube.
-8. **Bilingüe** — interfaz completa en español e inglés.
-9. **Explica por qué ayuda** — bajo la leyenda, un apartado plegable cuenta en seis puntos por qué la app sirve a personas con discalculia.
+4. **Ritmo del mes** — dos barras comparan cuánto mes ha pasado con cuánto dinero se ha gastado, y una frase dice si vas bien.
+5. **Barra del dinero** — los ingresos son la barra entera, cada categoría un color y lo rayado lo que queda.
+6. **Extracto del banco con revisión** — los movimientos se leen y clasifican solos, y se confirman uno a uno.
+7. **Se apunta una vez** — ingresos y gastos fijos aparecen solos en los meses siguientes.
+8. **Privado por defecto** — los apuntes se quedan en el dispositivo y el PDF nunca se sube.
+9. **Bilingüe** — interfaz completa en español e inglés.
+10. **Explica por qué ayuda** — bajo la leyenda, un apartado plegable cuenta en seis puntos por qué la app sirve a personas con discalculia.
 
 ## Testing Strategy
 
@@ -126,13 +129,13 @@ Todos los textos viven en `lib/strings.ts` con las mismas claves en `en` y `es`;
 
 ## Project Setup
 
-1. Instala las dependencias:
+11. Instala las dependencias:
 
    ```bash
    npm install
    ```
 
-2. Crea `.env.local`:
+12. Crea `.env.local`:
 
    ```env
    # Sitio
@@ -142,15 +145,15 @@ Todos los textos viven en `lib/strings.ts` con las mismas claves en `en` y `es`;
    ANTHROPIC_API_KEY=sk-ant-tu-clave
    ```
 
-3. Arranca el servidor de desarrollo:
+13. Arranca el servidor de desarrollo:
 
    ```bash
    npm run dev
    ```
 
-4. Abre `http://localhost:3000`
+14. Abre `http://localhost:3000`
 
-5. Para los tests E2E, compila y lánzalos:
+15. Para los tests E2E, compila y lánzalos:
 
    ```bash
    npm run build && npm run test:e2e

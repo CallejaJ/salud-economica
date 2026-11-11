@@ -67,6 +67,7 @@ test('shows a labeled example, then the real verdict after adding entries', asyn
   await page.click('#save');
   await page.waitForSelector('#verdict[data-verdict="good"]');
   assert.equal(await page.locator('.example-badge').count(), 0);
+  await page.waitForSelector('#pace[data-pace="calm"]');
 
   await page.click('#tab-add');
   await page.click('[data-cat="home"]');
@@ -221,4 +222,16 @@ test('serves the SEO files', async () => {
   for (const p of ['robots.txt', 'sitemap.xml', 'llms.txt', 'site.webmanifest', 'favicon.ico', 'og.png']) {
     assert.equal((await fetch(BASE + p)).status, 200, p);
   }
+});
+
+test('shows the pace of the month only for the current month', async () => {
+  const page = await browser.newPage();
+  await page.clock.setFixedTime(new Date(2026, 10, 11, 12));
+  const mk = (id, kind, category, amount) => ({ id, kind, category, amount, note: '', month: '2026-11', recurring: false, createdAt: 0 });
+  await page.addInitScript((e) => localStorage.setItem('salud-economica.entries', e), JSON.stringify([mk('a', 'income', 'income', 1500), mk('b', 'expense', 'home', 1100)]));
+  await page.goto(BASE);
+  await page.waitForSelector('#pace[data-pace="fast"]');
+  await page.click('[aria-label="Previous month"]');
+  await page.waitForSelector('#pace', { state: 'detached' });
+  await page.close();
 });

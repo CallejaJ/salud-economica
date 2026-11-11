@@ -1757,6 +1757,112 @@ button.big-opt.active,
   text-decoration: underline;
 }
 
+/* Month pace: share of the month passed next to share of the income spent */
+.month-side {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+
+.pace {
+  display: grid;
+  gap: 14px;
+}
+
+.pace h2 {
+  margin: 0;
+}
+
+.pace-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+}
+
+.pace-light {
+  flex: 0 0 auto;
+  width: 14px;
+  height: 14px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: var(--pace);
+}
+
+.pace-calm,
+.pace-even {
+  --pace: var(--accent);
+}
+
+.pace-fast {
+  --pace: var(--cat-bills);
+}
+
+.pace-over {
+  --pace: var(--danger);
+}
+
+.pace-rows {
+  display: grid;
+  gap: 14px;
+}
+
+.pace-label {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pace-label b {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.pace-track {
+  position: relative;
+  display: block;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+}
+
+.pace-track i {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.pace-fill-month {
+  background: var(--muted);
+}
+
+.pace-fill-money {
+  background: var(--pace);
+}
+
+.pace-mark {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  width: 3px;
+  margin-left: -1.5px;
+  border-radius: 2px;
+  background: var(--text);
+}
+
+.pace-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
   .grid-3 {

@@ -10,10 +10,10 @@ Salud Económica is a Next.js app served by Vercel. The page runs in the browser
 |---|---|---|
 | **App shell** | `app/layout.tsx` | Metadata, theme bootstrap script, JSON-LD, language and motion providers, header and footer |
 | **Page** | `app/page.tsx` | Owns entries, selected month, active view and toasts; shows labeled example data when empty |
-| **Month view** | `components/Verdict.tsx`, `MoneyBreakdown.tsx`, `EntryList.tsx` | Verdict sentence and color, money bar by category, entry list with delete and stop-from-month |
+| **Month view** | `components/Verdict.tsx`, `MonthPace.tsx`, `MoneyBreakdown.tsx`, `EntryList.tsx` | Verdict sentence and color, pace of the current month (month passed next to money spent), money bar by category, entry list with delete and stop-from-month |
 | **Entry form** | `components/EntryForm.tsx` | Expense or income, category picker, amount, note and recurring switch |
 | **Statement import** | `components/StatementImport.tsx`, `DropZone.tsx` | Reads the PDF, calls the API, falls back to the regex reader and shows the review list |
-| **Money logic** | `lib/finance.ts` | `entriesFor`, `summarize`, `roughAmount`, `shareWord`, `parseAmount`, month helpers |
+| **Money logic** | `lib/finance.ts` | `entriesFor`, `summarize`, `monthPace`, `roughAmount`, `shareWord`, `parseAmount`, month helpers |
 | **Statement logic** | `lib/statement.ts` | `parseLines`, `guessCategory`, `cleanTransactions` |
 | **PDF text** | `lib/pdfText.ts` | `pdfToLines` with `pdfjs-dist`, up to 20 pages |
 | **Storage** | `lib/storage.ts` | `loadEntries`, `saveEntries` on `localStorage` |

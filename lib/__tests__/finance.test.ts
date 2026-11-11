@@ -4,6 +4,7 @@ import {
   entriesFor,
   mergeStatement,
   monthlyShare,
+  monthPace,
   monthsBetween,
   parseAmount,
   rankCategories,
@@ -217,5 +218,29 @@ describe("setCategory", () => {
     const list = [entry({ id: "i", kind: "income", category: "income" })];
     expect(setCategory(list, "i", "food")).toEqual(list);
     expect(setCategory(list, "x", "food")).toEqual(list);
+  });
+});
+
+describe("monthPace", () => {
+  const today = new Date(2026, 10, 11); // 11 of 30 days passed, a bit over a third
+
+  test("is null for other months and without income", () => {
+    expect(monthPace({ income: 1000, expenses: 100 }, "2026-10", today)).toBeNull();
+    expect(monthPace({ income: 0, expenses: 100 }, "2026-11", today)).toBeNull();
+  });
+
+  test("gives the day and the month length", () => {
+    expect(monthPace({ income: 1000, expenses: 100 }, "2026-11", today)).toMatchObject({ day: 11, days: 30 });
+  });
+
+  test.each([
+    [300, "calm"],
+    [366, "calm"],
+    [400, "even"],
+    [600, "fast"],
+    [1000, "over"],
+    [1200, "over"],
+  ])("spent %d of 1000 by day 11 -> %s", (expenses, level) => {
+    expect(monthPace({ income: 1000, expenses }, "2026-11", today)?.level).toBe(level);
   });
 });
