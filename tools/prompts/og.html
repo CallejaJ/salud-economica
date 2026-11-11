@@ -1,28 +1,10 @@
 <!doctype html><html><head><meta charset="utf-8">
-<!-- Source of public/og.png (1200×630). Render with tools/scripts/og.mjs after placing app-shot.png next to this file. -->
+<!-- Source of public/og.png (1200×630). Render with tools/scripts/og.mjs. Logo only, centered, so square crops (WhatsApp) still show it. -->
 <style>
 *{box-sizing:border-box;margin:0}
-body{width:1200px;height:630px;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:#e2e8f0;position:relative;overflow:hidden;background:radial-gradient(ellipse 50% 60% at 90% 10%,rgba(20,184,166,.18),transparent 70%),#0f172a}
+body{width:1200px;height:630px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 50% 60% at 50% 50%,rgba(20,184,166,.16),transparent 70%),#0f172a}
 body::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(148,163,184,.16) 1.1px,transparent 1.5px);background-size:16px 16px}
-.l{position:absolute;left:64px;top:72px;width:470px}
-.k{font-size:14px;font-weight:700;letter-spacing:3px;color:#2dd4bf}
-h1{margin-top:18px;font-size:52px;line-height:1.08;font-weight:800;letter-spacing:-1.5px}
-h1 span{color:#14b8a6}
-p{margin-top:20px;font-size:20px;line-height:1.45;color:#94a3b8}
-.brand{position:absolute;left:64px;bottom:56px;display:flex;align-items:center;gap:12px;font-weight:700;font-size:22px}
-.brand i{width:44px;height:44px;border-radius:10px;background:#273449;display:flex;align-items:center;justify-content:center}
-.brand b{color:#14b8a6}
-.brand small{display:block;font-size:12px;font-weight:500;letter-spacing:2px;color:#94a3b8}
-.win{position:absolute;left:580px;top:70px;width:720px;border-radius:14px;overflow:hidden;background:#1e293b;border:1px solid #334155;box-shadow:0 30px 60px -24px rgba(2,6,23,.8)}
-.bar{height:32px;background:#273449;border-bottom:1px solid #334155;display:flex;align-items:center;gap:7px;padding:0 14px}
-.bar u{width:10px;height:10px;border-radius:50%}
-.win img{display:block;width:100%}
-.mark{position:absolute;right:64px;bottom:48px;width:120px;height:120px;border-radius:26px;background:#273449;border:1px solid #334155;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px -20px rgba(2,6,23,.8)}
+.mark{position:relative;width:300px;height:300px;border-radius:64px;background:#273449;border:1px solid #334155;display:flex;align-items:center;justify-content:center;box-shadow:0 40px 80px -30px rgba(2,6,23,.9)}
 </style></head><body>
-<div class="l"><div class="k">BETA GRATUITA · FINANZAS PERSONALES</div>
-<h1>¿Llegas a <span>fin de mes?</span></h1>
-<p>La respuesta en palabras y colores, pensada para personas con discalculia. Tus datos no salen de tu dispositivo.</p></div>
-<div class="brand"><i><img src="../../public/images/logo.svg" width="32" height="32"></i><span>Salud <b>Económica</b><small>SALUD-ECONOMICA.VERCEL.APP</small></span></div>
-<div class="win"><div class="bar"><u style="background:#ff5f57"></u><u style="background:#febc2e"></u><u style="background:#28c840"></u></div><img src="app-shot.png"></div>
-<div class="mark"><img src="../../public/images/logo.svg" width="88" height="88" alt=""></div>
+<div class="mark"><img src="../../public/images/logo.svg" width="220" height="220" alt=""></div>
 </body></html>

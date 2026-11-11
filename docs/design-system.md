@@ -129,5 +129,5 @@ All animation uses `motion/react` inside `MotionProvider` (`<MotionConfig reduce
 | Asset | Spec |
 |---|---|
 | **Logo / favicon SVG** | 64×64 viewBox, `rect rx="14"` in `#0f172a`, artwork in `#e2e8f0`, `#14b8a6`, `#2dd4bf`, `#94a3b8` |
-| **Open Graph image** | `public/og.png`, 1200×630, dark background with dot grid and turquoise accent |
+| **Open Graph image** | `public/og.png`, 1200×630, logo only, centered on the dark dot-grid background (square crops still show it) |
 | **LinkedIn cover** | 1584×396 HTML source in `tools/prompts/` or `linkedin/`, exported to PNG |
