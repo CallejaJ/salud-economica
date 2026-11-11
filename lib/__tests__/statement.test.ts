@@ -9,6 +9,8 @@ describe("guessCategory", () => {
     ["NETFLIX.COM", "leisure"],
     ["BASIC-FIT SPAIN CUOTA", "sports"],
     ["RECIBO COLEGIO SAN JOSE", "school"],
+    ["comedor+aula matinal", "school"],
+    ["ADEUDO AULA MATINAL CEIP", "school"],
     ["FLORISTERIA LA ROSA", "gifts"],
     ["BIZUM A PEPE", "other"],
   ])("%s -> %s", (text, cat) => expect(guessCategory(text)).toBe(cat));
