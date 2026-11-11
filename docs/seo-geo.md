@@ -26,7 +26,7 @@ Static routes in `robots.ts` and `sitemap.ts` declare `export const dynamic = "f
 | **description** | 140 to 160 characters, factual, mentions the main use case |
 | **keywords** | English and Spanish terms plus `Málaga` |
 | **alternates.canonical** | `/` |
-| **openGraph** | type `website`, `locale: "en_US"`, `alternateLocale: ["es_ES"]`, `og.png` with alt text |
+| **openGraph** | type `website`, `locale: "es_ES"`, `alternateLocale: ["en_US"]` (link previews are shown in Spanish), `og.png` with alt text |
 | **twitter** | `summary_large_image` |
 | **robots** | index and follow, `max-image-preview: large` |
 | **authors / creator** | Jorge Calleja, `https://jorgecalleja.dev` |
