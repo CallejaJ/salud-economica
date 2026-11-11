@@ -9,7 +9,10 @@ import CategoryBadge from "./CategoryBadge";
 import { CATEGORY_NAME } from "./labels";
 import { PlusIcon, TrashIcon } from "./icons";
 
-/** Entries of the selected month, income first, with an inline delete confirmation. */
+// Value of `confirm` while the "delete all of this month" question is open; entry ids never take it.
+const CLEAR = "__month__";
+
+/** Entries of the selected month, income first, with an inline delete confirmation per entry and for the whole month. */
 export default function EntryList({
   entries,
   month,
@@ -17,6 +20,8 @@ export default function EntryList({
   onAdd,
   onDelete,
   onStopFrom,
+  clearable,
+  onClear,
 }: {
   entries: Entry[];
   month: string;
@@ -24,6 +29,9 @@ export default function EntryList({
   onAdd: () => void;
   onDelete: (id: string) => void;
   onStopFrom: (id: string) => void;
+  /** Entries written in this month that do not repeat; "delete all of this month" removes them. */
+  clearable: number;
+  onClear: () => void;
 }) {
   const { t, lang } = useLang();
   const [confirm, setConfirm] = useState<string | null>(null);
@@ -108,6 +116,47 @@ export default function EntryList({
             })}
           </AnimatePresence>
         </ul>
+      )}
+
+      {!readOnly && clearable > 1 && (
+        <div className={`clear-month${confirm === CLEAR ? " confirming" : ""}`}>
+          <button
+            type="button"
+            id="clear-month"
+            className="link danger-link"
+            aria-expanded={confirm === CLEAR}
+            onClick={() => setConfirm(confirm === CLEAR ? null : CLEAR)}
+          >
+            <TrashIcon /> {t("clearMonth")}
+          </button>
+          <AnimatePresence initial={false}>
+            {confirm === CLEAR && (
+              <motion.div
+                key="confirm"
+                className="confirm"
+                role="group"
+                aria-label={t("clearMonth")}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
+              >
+                <div className="confirm-inner">
+                  <span>
+                    {t("clearMonthConfirm", clearable, monthLabel(month, lang))}
+                    {entries.some((e) => e.recurring) && ` ${t("clearMonthKeeps")}`}
+                  </span>
+                  <button type="button" id="clear-month-yes" className="danger small" onClick={() => { setConfirm(null); onClear(); }}>
+                    {t("clearMonthYes")}
+                  </button>
+                  <button type="button" className="link" onClick={() => setConfirm(null)}>
+                    {t("cancel")}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       )}
     </motion.section>
   );

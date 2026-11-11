@@ -43,7 +43,7 @@ Cada gasto pertenece a una de nueve categorías (casa, comida, transporte, factu
 
 ## Importación del Extracto
 
-El usuario puede subir el extracto en PDF que descarga de su banco. El texto se extrae en el navegador con **PDF.js**, así que el archivo nunca sale del dispositivo; solo las líneas de texto viajan a `/api/statement`. Todos los movimientos se muestran para revisarlos, con casilla y categoría editable, antes de guardarse en el mes de su fecha.
+El usuario puede subir el extracto en PDF que descarga de su banco. El texto se extrae en el navegador con **PDF.js**, así que el archivo nunca sale del dispositivo; solo las líneas de texto viajan a `/api/statement`. Todos los movimientos se muestran para revisarlos, con casilla y categoría editable, antes de guardarse en el mes de su fecha. Si se vuelve a subir el mismo extracto, los movimientos que ya estaban (mismo día, importe, signo y concepto) no se duplican: se actualiza su categoría con la elegida en la revisión.
 
 | Fase | Dónde se ejecuta | Detalle |
 |---|---|---|
@@ -63,7 +63,7 @@ Los apuntes marcados con «Se repite» guardan un mes de inicio (`month`), una f
 | Cada 3 meses | 3 | Comunidad, seguro trimestral |
 | Cada año | 12 | IBI, seguro del coche |
 
-Cuando el gasto no es mensual, el formulario dice cuánto conviene apartar cada mes para tenerlo listo (importe ÷ meses, redondeado). Los apuntes guardados antes de existir `every` se repiten cada mes. Al borrar uno recurrente se puede quitar desde el mes actual o borrar de todos los meses.
+Cuando el gasto no es mensual, el formulario dice cuánto conviene apartar cada mes para tenerlo listo (importe ÷ meses, redondeado). Los apuntes guardados antes de existir `every` se repiten cada mes. Al borrar uno recurrente se puede quitar desde el mes actual o borrar de todos los meses. Bajo la lista, **Borrar todos los de este mes** quita de una vez, tras una sola confirmación, los apuntes del mes que no se repiten.
 
 ## Copia de Seguridad
 
@@ -73,6 +73,7 @@ Los apuntes viven solo en el navegador, así que la vista del mes incluye un pan
 |---|---|
 | **Descargar copia** | Baja `salud-economica-AAAA-MM-DD.json` con todos los apuntes (`app`, `version`, `exportedAt`, `entries`) |
 | **Cargar una copia** | Lee un archivo descargado antes, valida cada apunte con `parseBackup` y añade solo los que no están ya guardados (mismo `id`) |
+| **Borrar todos mis datos** | Vacía los apuntes de este navegador tras una confirmación que ofrece descargar antes una copia |
 
 ## System Architecture
 

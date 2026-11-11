@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
-import { entriesFor, monthKey, newId, shiftMonth, summarize, type Entry } from "@/lib/finance";
+import { clearableIn, entriesFor, mergeStatement, monthKey, newId, shiftMonth, summarize, type Entry } from "@/lib/finance";
 import { monthLabel } from "@/lib/format";
 import { loadEntries, saveEntries } from "@/lib/storage";
 import { mergeEntries } from "@/lib/backup";
@@ -87,10 +87,11 @@ export default function Home() {
       source: "statement",
       createdAt: now,
     }));
-    if (commit([...entries, ...added])) {
+    const merged = mergeStatement(entries, added);
+    if (commit(merged.entries)) {
       const months = added.map((e) => e.month).sort();
       setMonth(months[months.length - 1]);
-      setToast(t("savedN", added.length));
+      setToast(merged.updated ? t("savedUpdated", merged.added, merged.updated) : t("savedN", merged.added));
       go("month");
     } else setToast(t("saveError"));
   }
@@ -108,6 +109,18 @@ export default function Home() {
   function remove(id: string) {
     commit(entries.filter((e) => e.id !== id));
     setToast(t("deleted"));
+  }
+
+  function clearMonth() {
+    const gone = new Set(clearableIn(entries, month).map((e) => e.id));
+    if (!gone.size) return;
+    if (commit(entries.filter((e) => !gone.has(e.id)))) setToast(t("clearedN", gone.size));
+    else setToast(t("saveError"));
+  }
+
+  function wipe() {
+    if (commit([])) setToast(t("wiped"));
+    else setToast(t("saveError"));
   }
 
   function stopFrom(id: string) {
@@ -129,10 +142,10 @@ export default function Home() {
         <div className="grid-3">
           <Verdict summary={summary} month={month} example={example} onGo={go} />
           <MoneyBreakdown summary={summary} />
-          <EntryList entries={monthEntries} month={month} readOnly={example} onAdd={() => go("add")} onDelete={remove} onStopFrom={stopFrom} />
+          <EntryList entries={monthEntries} month={month} readOnly={example} onAdd={() => go("add")} onDelete={remove} onStopFrom={stopFrom} clearable={example ? 0 : clearableIn(entries, month).length} onClear={clearMonth} />
         </div>
       )}
-      {tab === "month" && loaded && <BackupPanel entries={entries} onRestore={restore} onNotice={setToast} />}
+      {tab === "month" && loaded && <BackupPanel entries={entries} onRestore={restore} onNotice={setToast} onWipe={wipe} />}
       {tab === "add" && (
         <div className="narrow">
           <EntryForm onSave={addEntry} />

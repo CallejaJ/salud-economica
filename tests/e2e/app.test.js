@@ -129,6 +129,49 @@ test('imports a bank statement PDF after review', async () => {
   await page.close();
 });
 
+test('uploading the same statement again updates it, and a month can be cleared at once', async () => {
+  const page = await browser.newPage();
+  await page.goto(BASE);
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  const pdf = await statementPdf();
+
+  for (const category of [null, 'leisure']) {
+    await page.click('#tab-import');
+    await page.setInputFiles('#statement-file', pdf);
+    await page.waitForSelector('#review', { timeout: 20000 });
+    if (category) await page.locator('#review select').first().selectOption(category);
+    await page.click('#review-save');
+    await page.waitForSelector('#verdict');
+  }
+  assert.equal(await page.locator('#entry-list li').count(), 3);
+  assert.match(await page.textContent('#toast'), /3/);
+  assert.equal(await page.locator('#entry-list .cat-leisure').count(), 1);
+
+  await page.click('#clear-month');
+  await page.click('#clear-month-yes');
+  await page.waitForSelector('.example-badge');
+  await page.close();
+});
+
+test('deletes all data after one confirmation', async () => {
+  const page = await browser.newPage();
+  await page.goto(BASE);
+  await page.evaluate(() => localStorage.clear());
+  await page.reload();
+  await page.click('#tab-add');
+  await page.click('#kind-income');
+  await page.fill('#amount', '1000');
+  await page.click('#save');
+  await page.waitForSelector('#verdict[data-verdict="good"]');
+
+  await page.click('#wipe');
+  await page.click('#wipe-yes');
+  await page.waitForSelector('.example-badge');
+  assert.equal(await page.evaluate(() => JSON.parse(localStorage.getItem('salud-economica.entries')).length), 0);
+  await page.close();
+});
+
 test('downloads a JSON copy and loads it back after the data is gone', async () => {
   const page = await browser.newPage({ acceptDownloads: true });
   await page.goto(BASE);

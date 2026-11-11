@@ -485,6 +485,14 @@ button.link {
   font-size: 13px;
 }
 
+/* Destructive text button: red, with its icon, for "delete all" actions that open a confirmation */
+button.link.danger-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--danger);
+}
+
 button.link:disabled {
   color: var(--muted);
   opacity: 0.5;
@@ -918,7 +926,17 @@ button.month-btn {
 .backup-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 10px;
+}
+
+/* "Delete all my data" question takes the whole width of the backup panel */
+.wipe-confirm {
+  flex: 1 1 100%;
+}
+
+.wipe-confirm .confirm-inner {
+  margin: 0;
 }
 
 /* Three-column month view: verdict | money | entries */
@@ -1309,6 +1327,22 @@ button.danger {
   border-top: 1px solid var(--border);
   font-size: 13px;
   color: var(--muted);
+}
+
+/* "Delete all of this month" under the list; the confirmation opens inside the same box */
+.clear-month {
+  margin-top: 12px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.clear-month > button {
+  padding: 6px 12px;
+}
+
+.clear-month.confirming {
+  border-color: var(--danger);
 }
 
 .empty {

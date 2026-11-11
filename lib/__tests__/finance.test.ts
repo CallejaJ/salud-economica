@@ -1,6 +1,8 @@
 import {
+  clearableIn,
   daysLeft,
   entriesFor,
+  mergeStatement,
   monthlyShare,
   monthsBetween,
   parseAmount,
@@ -148,5 +150,48 @@ describe("friendly numbers", () => {
     expect(shareWord(280, 1450)).toBe("tenth");
     expect(shareWord(40, 1450)).toBeNull();
     expect(shareWord(10, 0)).toBeNull();
+  });
+});
+
+describe("clearableIn", () => {
+  it("returns the month's own entries that do not repeat", () => {
+    const list = [
+      entry({ id: "a" }),
+      entry({ id: "b", month: "2026-10" }),
+      entry({ id: "c", recurring: true }),
+      entry({ id: "d", kind: "income", category: "income" }),
+    ];
+    expect(clearableIn(list, "2026-11").map((e) => e.id)).toEqual(["a", "d"]);
+  });
+});
+
+describe("mergeStatement", () => {
+  const imported = (p: Partial<Entry>) => entry({ source: "statement", date: "2026-11-03", note: "COMPRA MERCADONA", amount: 60.25, ...p });
+
+  it("updates the category of a transaction imported before instead of adding it again", () => {
+    const saved = [imported({ id: "a", category: "other" }), entry({ id: "m", note: "COMPRA MERCADONA", amount: 60.25 })];
+    const { entries, added, updated } = mergeStatement(saved, [imported({ id: "new", category: "food", note: "compra mercadona " })]);
+    expect({ added, updated }).toEqual({ added: 0, updated: 1 });
+    expect(entries).toHaveLength(2);
+    expect(entries[0]).toMatchObject({ id: "a", category: "food" });
+  });
+
+  it("adds transactions that differ in day, amount or sign", () => {
+    const saved = [imported({ id: "a" })];
+    const incoming = [
+      imported({ id: "b", date: "2026-11-04" }),
+      imported({ id: "c", amount: 60.26 }),
+      imported({ id: "d", kind: "income", category: "income" }),
+    ];
+    const { entries, added, updated } = mergeStatement(saved, incoming);
+    expect({ added, updated }).toEqual({ added: 3, updated: 0 });
+    expect(entries).toHaveLength(4);
+  });
+
+  it("matches one to one, so two equal charges on the same day stay two", () => {
+    const saved = [imported({ id: "a" })];
+    const { entries, added, updated } = mergeStatement(saved, [imported({ id: "b" }), imported({ id: "c" })]);
+    expect({ added, updated }).toEqual({ added: 1, updated: 1 });
+    expect(entries.map((e) => e.id)).toEqual(["a", "c"]);
   });
 });
