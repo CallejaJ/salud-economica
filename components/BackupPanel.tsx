@@ -1,23 +1,27 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
 import type { Entry } from "@/lib/finance";
 import { backupFileName, parseBackup, toBackup } from "@/lib/backup";
-import { DownloadIcon, UploadIcon } from "./icons";
+import { DownloadIcon, TrashIcon, UploadIcon } from "./icons";
 
 /** Download every entry as a JSON file, or add the entries of a file saved before. Nothing leaves the browser. */
 export default function BackupPanel({
   entries,
   onRestore,
   onNotice,
+  onWipe,
 }: {
   entries: Entry[];
   onRestore: (entries: Entry[]) => void;
   onNotice: (text: string) => void;
+  onWipe: () => void;
 }) {
   const { t } = useLang();
   const input = useRef<HTMLInputElement>(null);
+  const [wiping, setWiping] = useState(false);
 
   function download() {
     const blob = new Blob([JSON.stringify(toBackup(entries), null, 2)], { type: "application/json" });
@@ -61,7 +65,37 @@ export default function BackupPanel({
             e.target.value = "";
           }}
         />
+        <button type="button" id="wipe" className="link danger-link" aria-expanded={wiping} onClick={() => setWiping(!wiping)} disabled={entries.length === 0}>
+          <TrashIcon /> {t("wipeAll")}
+        </button>
       </div>
+      <AnimatePresence initial={false}>
+        {wiping && entries.length > 0 && (
+          <motion.div
+            key="wipe"
+            className="confirm wipe-confirm"
+            role="group"
+            aria-label={t("wipeAll")}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          >
+            <div className="confirm-inner">
+              <span>{t("wipeConfirm")}</span>
+              <button type="button" className="secondary small" onClick={download}>
+                <DownloadIcon /> {t("backupDownload")}
+              </button>
+              <button type="button" id="wipe-yes" className="danger small" onClick={() => { setWiping(false); onWipe(); }}>
+                {t("wipeYes")}
+              </button>
+              <button type="button" className="link" onClick={() => setWiping(false)}>
+                {t("cancel")}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

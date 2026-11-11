@@ -170,3 +170,38 @@ export function rankCategories(byCategory: Summary["byCategory"]): Category[] {
 }
 
 export const newId = (): string => `e${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
+
+/** Entries that "clear this month" deletes: the ones written in that month that do not repeat. */
+export const clearableIn = (entries: Entry[], key: string): Entry[] => entries.filter((e) => e.month === key && !e.recurring);
+
+const statementKey = (e: Pick<Entry, "date" | "kind" | "amount" | "note">): string =>
+  `${e.date ?? ""}|${e.kind}|${e.amount.toFixed(2)}|${e.note.trim().toLowerCase()}`;
+
+/**
+ * Adds entries read from a bank statement. An entry that matches one imported before
+ * (same day, sign, amount and concept) updates that entry's category instead of being added again,
+ * so uploading the same statement twice re-sorts it without duplicates. Matches are one to one,
+ * so two identical charges on the same day stay two entries.
+ */
+export function mergeStatement(current: Entry[], incoming: Entry[]): { entries: Entry[]; added: number; updated: number } {
+  const free = new Map<string, number[]>();
+  current.forEach((e, i) => {
+    if (e.source !== "statement" || !e.date) return;
+    const k = statementKey(e);
+    free.set(k, [...(free.get(k) ?? []), i]);
+  });
+  const entries = [...current];
+  let added = 0;
+  let updated = 0;
+  for (const e of incoming) {
+    const i = e.date ? free.get(statementKey(e))?.shift() : undefined;
+    if (i === undefined) {
+      entries.push(e);
+      added++;
+    } else {
+      entries[i] = { ...entries[i], category: e.category };
+      updated++;
+    }
+  }
+  return { entries, added, updated };
+}
