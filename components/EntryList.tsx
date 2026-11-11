@@ -52,7 +52,7 @@ export default function EntryList({
             {sorted.map((e) => {
               const name = e.note || t(CATEGORY_NAME[e.category]);
               return (
-                <motion.li key={e.id} layout initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: 20 }}>
+                <motion.li key={e.id} className={`entry-card${confirm === e.id ? " confirming" : ""}`} layout="position" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: 20 }}>
                   <div className="entry">
                     <CategoryBadge category={e.category} size="sm" />
                     <div className="entry-main">
@@ -74,22 +74,35 @@ export default function EntryList({
                       </button>
                     )}
                   </div>
-                  {confirm === e.id && (
-                    <div className="confirm" role="group" aria-label={t("deleteConfirm")}>
-                      <span>{e.recurring ? t("deleteRecurring") : t("deleteConfirm")}</span>
-                      {e.recurring && (
-                        <button type="button" className="secondary small" onClick={() => { setConfirm(null); onStopFrom(e.id); }}>
-                          {t("deleteFromNow")}
-                        </button>
-                      )}
-                      <button type="button" className="danger small" onClick={() => { setConfirm(null); onDelete(e.id); }}>
-                        {e.recurring ? t("deleteAll") : t("deleteYes")}
-                      </button>
-                      <button type="button" className="link" onClick={() => setConfirm(null)}>
-                        {t("cancel")}
-                      </button>
-                    </div>
-                  )}
+                  <AnimatePresence initial={false}>
+                    {confirm === e.id && (
+                      <motion.div
+                        key="confirm"
+                        className="confirm"
+                        role="group"
+                        aria-label={t("deleteConfirm")}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                      >
+                        <div className="confirm-inner">
+                          <span>{e.recurring ? t("deleteRecurring") : t("deleteConfirm")}</span>
+                          {e.recurring && (
+                            <button type="button" className="secondary small" onClick={() => { setConfirm(null); onStopFrom(e.id); }}>
+                              {t("deleteFromNow")}
+                            </button>
+                          )}
+                          <button type="button" className="danger small" onClick={() => { setConfirm(null); onDelete(e.id); }}>
+                            {e.recurring ? t("deleteAll") : t("deleteYes")}
+                          </button>
+                          <button type="button" className="link" onClick={() => setConfirm(null)}>
+                            {t("cancel")}
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.li>
               );
             })}

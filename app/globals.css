@@ -1276,12 +1276,37 @@ button.danger {
   font-size: 11px;
 }
 
+/* An entry and its delete confirmation share one card, so the card grows instead of the question spilling outside it. */
+.entry-card {
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.entry-card.confirming {
+  border-color: var(--danger);
+}
+
+.entry-card .entry {
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
 .confirm {
+  overflow: hidden;
+}
+
+.confirm-inner {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  padding: 10px 4px 2px;
+  margin: 0 12px;
+  padding: 10px 0 12px;
+  border-top: 1px solid var(--border);
   font-size: 13px;
   color: var(--muted);
 }
