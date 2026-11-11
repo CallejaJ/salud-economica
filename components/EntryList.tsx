@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import { lift } from "./motion";
 import { useLang } from "@/lib/i18n";
 import { CATEGORIES, type Category, type Entry } from "@/lib/finance";
 import { euros, monthLabel } from "@/lib/format";
@@ -51,6 +52,7 @@ export default function EntryList({
       aria-labelledby="entriesTitle"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
+      whileHover={lift}
       transition={{ duration: 0.45, ease: "easeOut", delay: 0.12 }}
     >
       <div className="panel-head">

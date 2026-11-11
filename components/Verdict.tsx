@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import { lift } from "./motion";
 import { useLang } from "@/lib/i18n";
 import { daysLeft, monthKey, roughAmount, type Summary } from "@/lib/finance";
 import { euros } from "@/lib/format";
@@ -45,6 +46,7 @@ export default function Verdict({
       aria-live="polite"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
+      whileHover={lift}
       transition={{ duration: 0.45, ease: "easeOut" }}
     >
       {example && <span className="example-badge">{t("exampleBadge")}</span>}

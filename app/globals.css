@@ -1804,13 +1804,57 @@ button.big-opt.active,
   --pace: var(--danger);
 }
 
-.pace {
+/* Month view cards rise on hover (motion `lift`) and get a shadow and a colored edge */
+.grid-3 .panel,
+.grid-3 .verdict {
   transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.grid-3 .panel:hover,
+.grid-3 .verdict:hover {
+  box-shadow: var(--glass-shadow);
+}
+
+.money:hover,
+.entries:hover {
+  border-color: var(--accent);
 }
 
 .pace:hover {
   border-color: var(--pace);
+}
+
+/* Rows light up under the pointer with the same inset as the pace rows */
+.cat-row {
+  margin: -4px -8px;
+  padding: 4px 8px;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.cat-row:hover {
+  background: var(--panel-2);
+}
+
+.cat-row .cat-badge {
+  transition: transform 0.2s ease;
+}
+
+.cat-row:hover .cat-badge {
+  transform: scale(1.08);
+}
+
+.entry-card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.entry-card:hover {
+  border-color: var(--accent);
   box-shadow: var(--glass-shadow);
+}
+
+.entry-card.confirming:hover {
+  border-color: var(--danger);
 }
 
 .pace-light {
