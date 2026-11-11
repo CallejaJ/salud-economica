@@ -231,6 +231,10 @@ test('shows the pace of the month only for the current month', async () => {
   await page.addInitScript((e) => localStorage.setItem('salud-economica.entries', e), JSON.stringify([mk('a', 'income', 'income', 1500), mk('b', 'expense', 'home', 1100)]));
   await page.goto(BASE);
   await page.waitForSelector('#pace[data-pace="fast"]');
+  await page.click('.pace-row[data-bar="money"]');
+  assert.match(await page.textContent('.pace-tip'), /about €400 left/);
+  await page.keyboard.press('Escape');
+  await page.waitForSelector('.pace-tip', { state: 'detached' });
   await page.click('[aria-label="Previous month"]');
   await page.waitForSelector('#pace', { state: 'detached' });
   await page.close();
