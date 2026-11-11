@@ -312,10 +312,6 @@ html[data-theme="light"] .beta-badge {
 
 
 /* "Why it helps" note under the legend, collapsed by default */
-.why {
-  max-width: 820px;
-}
-
 button.link.why-toggle {
   display: inline-flex;
   align-items: center;
@@ -350,12 +346,26 @@ button.link.why-toggle {
   line-height: 1.5;
 }
 
+/* Same column steps as the month view: three from 1200 px, two from 900 px, one below */
 .why-list {
   display: grid;
-  gap: 8px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 32px;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+@media (max-width: 1199px) {
+  .why-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 899px) {
+  .why-list {
+    grid-template-columns: 1fr;
+  }
 }
 
 .why-list li {
