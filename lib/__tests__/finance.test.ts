@@ -117,6 +117,22 @@ describe("summarize", () => {
     expect(s).toMatchObject({ income: 1000, expenses: 375, left: 625, byCategory: { home: 300, food: 75 } });
     expect(rankCategories(s.byCategory)).toEqual(["home", "food"]);
   });
+
+  test("lists the concepts of other expenses", () => {
+    const s = summarize([
+      salary,
+      entry({ amount: 100, category: "other", note: "comedor" }),
+      entry({ amount: 41, category: "other", note: "Comedor " }),
+      entry({ amount: 200, category: "other", note: "dentista" }),
+      entry({ amount: 30, category: "other", note: "" }),
+      entry({ amount: 60, category: "food", note: "mercado" }),
+    ]);
+    expect(s.byCategory.other).toBe(371);
+    expect(s.otherNotes).toEqual([
+      { note: "dentista", amount: 200 },
+      { note: "comedor", amount: 141 },
+    ]);
+  });
 });
 
 describe("friendly numbers", () => {

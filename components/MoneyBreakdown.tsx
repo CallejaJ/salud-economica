@@ -12,7 +12,7 @@ const SHARE = { half: "shareHalf", third: "shareThird", fifth: "shareFifth", ten
 /** Income as a full bar split by category, plus one row per category with a share in words. */
 export default function MoneyBreakdown({ summary }: { summary: Summary }) {
   const { t, lang } = useLang();
-  const { income, expenses, left, byCategory } = summary;
+  const { income, expenses, left, byCategory, otherNotes } = summary;
   if (!income && !expenses) return null;
 
   const total = Math.max(income, expenses) || 1;
@@ -75,6 +75,16 @@ export default function MoneyBreakdown({ summary }: { summary: Summary }) {
                 <b>{euros(byCategory[c]!, lang)}</b>
                 {share && <small>{t(SHARE[share])}</small>}
               </div>
+              {c === "other" && otherNotes.length > 0 && (
+                <ul className="cat-notes">
+                  {otherNotes.map((n) => (
+                    <li key={n.note}>
+                      <span>{n.note}</span>
+                      <span>{euros(n.amount, lang)}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           );
         })}

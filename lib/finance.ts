@@ -37,6 +37,8 @@ export interface Summary {
   expenses: number;
   left: number;
   byCategory: Partial<Record<Category, number>>;
+  /** Concepts of the "other" expenses, summed by note, largest first; entries without a note are left out. */
+  otherNotes: { note: string; amount: number }[];
   verdict: VerdictLevel;
 }
 
@@ -97,12 +99,20 @@ export function summarize(entries: Entry[]): Summary {
   let income = 0;
   let expenses = 0;
   const byCategory: Partial<Record<Category, number>> = {};
+  const notes = new Map<string, { note: string; amount: number }>();
   for (const e of entries) {
     if (e.kind === "income") income += e.amount;
     else {
       expenses += e.amount;
       const c = e.category as Category;
       byCategory[c] = (byCategory[c] ?? 0) + e.amount;
+      const note = e.note.trim();
+      if (c === "other" && note) {
+        const key = note.toLowerCase();
+        const item = notes.get(key) ?? { note, amount: 0 };
+        item.amount += e.amount;
+        notes.set(key, item);
+      }
     }
   }
   const left = income - expenses;
@@ -112,7 +122,8 @@ export function summarize(entries: Entry[]): Summary {
   else if (left < 0) verdict = "short";
   else if (left / income < TIGHT_SHARE) verdict = "tight";
   else verdict = "good";
-  return { income, expenses, left, byCategory, verdict };
+  const otherNotes = [...notes.values()].sort((a, b) => b.amount - a.amount);
+  return { income, expenses, left, byCategory, otherNotes, verdict };
 }
 
 /** Friendly rounding for people who find exact figures hard: tens above 100, units below. */
