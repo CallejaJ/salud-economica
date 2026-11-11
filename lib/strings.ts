@@ -153,6 +153,20 @@ export const en = {
     "Any Spanish bank whose statement is a PDF with text. The transactions are always shown to you for review before they are saved.",
   help4Title: "Is it free?",
   help4Body: "Yes. Salud Económica is free and works in any modern browser.",
+  whyTitle: "Why it helps if numbers are hard for you",
+  whyIntro: "Salud Económica is designed for people with dyscalculia and for anyone who finds numbers hard. This is what it does for you:",
+  why1Title: "It answers in words.",
+  why1Body: "A sentence in green, amber or red tells you whether you make it to the end of the month. You do not need to subtract or divide.",
+  why2Title: "Round amounts.",
+  why2Body: "You see \"about 20 € a day\" instead of exact figures with cents. It is enough to decide.",
+  why3Title: "You can see your money.",
+  why3Body: "The bar is everything that comes in. Each color is where it goes and the striped part is what you have left.",
+  why4Title: "Parts in words, not percentages.",
+  why4Body: "\"A fifth of what comes in\" is easier to picture than a percentage.",
+  why5Title: "The app does the sums.",
+  why5Body: "Upload your bank statement and the transactions are written down and sorted for you. You only check them before they are saved.",
+  why6Title: "Each category has its own icon and color.",
+  why6Body: "You recognize them at a glance, without reading amounts.",
 };
 
 type Dict = typeof en;
@@ -308,6 +322,20 @@ export const es: Dict = {
     "Cualquier banco español cuyo extracto sea un PDF con texto. Los movimientos siempre se te muestran para revisarlos antes de guardarlos.",
   help4Title: "¿Es gratis?",
   help4Body: "Sí. Salud Económica es gratuita y funciona en cualquier navegador moderno.",
+  whyTitle: "Por qué ayuda si te cuestan los números",
+  whyIntro: "Salud Económica está pensada para personas con discalculia y para cualquiera a quien le cuesten los números. Esto es lo que hace por ti:",
+  why1Title: "Te responde con palabras.",
+  why1Body: "Una frase en verde, ámbar o rojo te dice si llegas a fin de mes. No tienes que restar ni dividir.",
+  why2Title: "Cifras redondeadas.",
+  why2Body: "Verás «unos 20 € al día» en lugar de cifras exactas con céntimos. Basta para decidir.",
+  why3Title: "El dinero se ve.",
+  why3Body: "La barra es todo lo que entra. Cada color es a dónde va y la parte rayada es lo que te queda.",
+  why4Title: "Partes con palabras, no porcentajes.",
+  why4Body: "«Una quinta parte de lo que entra» se imagina mejor que un porcentaje.",
+  why5Title: "Las cuentas las hace la app.",
+  why5Body: "Sube el extracto de tu banco y los movimientos se apuntan y se clasifican solos. Tú solo los revisas antes de guardarlos.",
+  why6Title: "Cada categoría tiene su icono y su color.",
+  why6Body: "Se reconocen de un vistazo, sin leer cantidades.",
 };
 
 export const STRINGS: Record<Lang, Dict> = { en, es };

@@ -112,6 +112,7 @@ Los apuntes viven solo en el navegador, así que la vista del mes incluye un pan
 6. **Se apunta una vez** — ingresos y gastos fijos aparecen solos en los meses siguientes.
 7. **Privado por defecto** — los apuntes se quedan en el dispositivo y el PDF nunca se sube.
 8. **Bilingüe** — interfaz completa en español e inglés.
+9. **Explica por qué ayuda** — bajo la leyenda, un apartado plegable cuenta en seis puntos por qué la app sirve a personas con discalculia.
 
 ## Testing Strategy
 
