@@ -11,6 +11,9 @@ describe("guessCategory", () => {
     ["RECIBO COLEGIO SAN JOSE", "school"],
     ["COMEDOR+AULA MATINAL", "school"],
     ["ADEUDO AULA MATINAL CEIP", "school"],
+    ["ADEUDO SCOUTS S E KOSTKA", "activities"],
+    ["CLUB DE ATLETISMO MALAGA", "activities"],
+    ["ACTIVIDADES EXTRAESCOLARES CEIP", "activities"],
     ["FLORISTERIA LA ROSA", "gifts"],
     ["BIZUM A PEPE", "other"],
   ])("%s -> %s", (text, cat) => expect(guessCategory(text)).toBe(cat));
