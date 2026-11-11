@@ -46,6 +46,8 @@ export interface Entry {
   /** Booking date from a bank statement (YYYY-MM-DD). */
   date?: string;
   source?: "manual" | "statement";
+  /** True once the user picked the category by hand; importing the same statement again keeps it. */
+  categoryByHand?: true;
   createdAt: number;
 }
 
@@ -178,9 +180,18 @@ const statementKey = (e: Pick<Entry, "date" | "kind" | "amount" | "note">): stri
   `${e.date ?? ""}|${e.kind}|${e.amount.toFixed(2)}|${e.note.trim().toLowerCase()}`;
 
 /**
+ * Moves one expense to another category and remembers it was chosen by hand.
+ * Incomes and unknown ids are left as they are.
+ */
+export function setCategory(entries: Entry[], id: string, category: Category): Entry[] {
+  return entries.map((e) => (e.id === id && e.kind === "expense" ? { ...e, category, categoryByHand: true } : e));
+}
+
+/**
  * Adds entries read from a bank statement. An entry that matches one imported before
  * (same day, sign, amount and concept) updates that entry's category instead of being added again,
- * so uploading the same statement twice re-sorts it without duplicates. Matches are one to one,
+ * so uploading the same statement twice re-sorts it without duplicates;
+ * a category the user picked by hand is kept. Matches are one to one,
  * so two identical charges on the same day stay two entries.
  */
 export function mergeStatement(current: Entry[], incoming: Entry[]): { entries: Entry[]; added: number; updated: number } {
@@ -199,7 +210,7 @@ export function mergeStatement(current: Entry[], incoming: Entry[]): { entries: 
       entries.push(e);
       added++;
     } else {
-      entries[i] = { ...entries[i], category: e.category };
+      if (!entries[i].categoryByHand) entries[i] = { ...entries[i], category: e.category };
       updated++;
     }
   }

@@ -3,16 +3,19 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
-import type { Entry } from "@/lib/finance";
+import { CATEGORIES, type Category, type Entry } from "@/lib/finance";
 import { euros, monthLabel } from "@/lib/format";
 import CategoryBadge from "./CategoryBadge";
-import { CATEGORY_NAME } from "./labels";
+import { CATEGORY_HINT, CATEGORY_NAME } from "./labels";
 import { PlusIcon, TrashIcon } from "./icons";
 
 // Value of `confirm` while the "delete all of this month" question is open; entry ids never take it.
 const CLEAR = "__month__";
 
-/** Entries of the selected month, income first, with an inline delete confirmation per entry and for the whole month. */
+/**
+ * Entries of the selected month, income first. Tapping an expense's icon opens an inline category picker;
+ * each entry and the whole month have an inline delete confirmation. Only one of these is open at a time.
+ */
 export default function EntryList({
   entries,
   month,
@@ -20,6 +23,7 @@ export default function EntryList({
   onAdd,
   onDelete,
   onStopFrom,
+  onRecategorize,
   clearable,
   onClear,
 }: {
@@ -29,12 +33,16 @@ export default function EntryList({
   onAdd: () => void;
   onDelete: (id: string) => void;
   onStopFrom: (id: string) => void;
+  onRecategorize: (id: string, category: Category) => void;
   /** Entries written in this month that do not repeat; "delete all of this month" removes them. */
   clearable: number;
   onClear: () => void;
 }) {
   const { t, lang } = useLang();
   const [confirm, setConfirm] = useState<string | null>(null);
+  const [picking, setPicking] = useState<string | null>(null);
+  const ask = (id: string | null) => { setPicking(null); setConfirm(id); };
+  const pick = (id: string | null) => { setConfirm(null); setPicking(id); };
   const sorted = [...entries].sort((a, b) => (a.kind === b.kind ? b.amount - a.amount : a.kind === "income" ? -1 : 1));
 
   return (
@@ -59,15 +67,36 @@ export default function EntryList({
           <AnimatePresence initial={false}>
             {sorted.map((e) => {
               const name = e.note || t(CATEGORY_NAME[e.category]);
+              const editable = !readOnly && e.kind === "expense";
               return (
-                <motion.li key={e.id} className={`entry-card${confirm === e.id ? " confirming" : ""}`} layout="position" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: 20 }}>
+                <motion.li key={e.id} className={`entry-card${confirm === e.id ? " confirming" : ""}${picking === e.id ? " picking" : ""}`} layout="position" initial={{ opacity: 0, y: -6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, x: 20 }}>
                   <div className="entry">
-                    <CategoryBadge category={e.category} size="sm" />
+                    {editable ? (
+                      <button
+                        type="button"
+                        className="cat-change"
+                        aria-label={t("changeCategory", name)}
+                        title={t("changeCategory", name)}
+                        aria-expanded={picking === e.id}
+                        onClick={() => pick(picking === e.id ? null : e.id)}
+                      >
+                        <CategoryBadge category={e.category} size="sm" />
+                      </button>
+                    ) : (
+                      <CategoryBadge category={e.category} size="sm" />
+                    )}
                     <div className="entry-main">
                       <b>{name}</b>
                       {(e.note || e.recurring) && (
                         <span>
-                          {e.note && t(CATEGORY_NAME[e.category])}
+                          {e.note &&
+                            (editable ? (
+                              <button type="button" className="link cat-change-text" aria-expanded={picking === e.id} onClick={() => pick(picking === e.id ? null : e.id)}>
+                                {t(CATEGORY_NAME[e.category])}
+                              </button>
+                            ) : (
+                              t(CATEGORY_NAME[e.category])
+                            ))}
                           {e.recurring && <span className="pill">{t(`every${e.every ?? 1}`)}</span>}
                         </span>
                       )}
@@ -77,12 +106,47 @@ export default function EntryList({
                       {euros(e.amount, lang)}
                     </b>
                     {!readOnly && (
-                      <button type="button" className="icon" aria-label={t("deleteEntry", name)} onClick={() => setConfirm(confirm === e.id ? null : e.id)}>
+                      <button type="button" className="icon" aria-label={t("deleteEntry", name)} onClick={() => ask(confirm === e.id ? null : e.id)}>
                         <TrashIcon />
                       </button>
                     )}
                   </div>
                   <AnimatePresence initial={false}>
+                    {picking === e.id && (
+                      <motion.div
+                        key="pick"
+                        className="confirm"
+                        role="group"
+                        aria-label={t("changeCategoryAsk")}
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                      >
+                        <div className="confirm-inner recat">
+                          <span>{t("changeCategoryAsk")}</span>
+                          <div className="cat-pick cat-pick-sm">
+                            {CATEGORIES.map((c) => (
+                              <button
+                                key={c}
+                                type="button"
+                                data-cat={c}
+                                className={e.category === c ? "active" : undefined}
+                                aria-pressed={e.category === c}
+                                title={t(CATEGORY_HINT[c])}
+                                onClick={() => { setPicking(null); if (c !== e.category) onRecategorize(e.id, c); }}
+                              >
+                                <CategoryBadge category={c} size="sm" />
+                                <span>{t(CATEGORY_NAME[c])}</span>
+                              </button>
+                            ))}
+                          </div>
+                          <button type="button" className="link" onClick={() => setPicking(null)}>
+                            {t("cancel")}
+                          </button>
+                        </div>
+                      </motion.div>
+                    )}
                     {confirm === e.id && (
                       <motion.div
                         key="confirm"
@@ -125,7 +189,7 @@ export default function EntryList({
             id="clear-month"
             className="link danger-link"
             aria-expanded={confirm === CLEAR}
-            onClick={() => setConfirm(confirm === CLEAR ? null : CLEAR)}
+            onClick={() => ask(confirm === CLEAR ? null : CLEAR)}
           >
             <TrashIcon /> {t("clearMonth")}
           </button>
