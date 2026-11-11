@@ -124,6 +124,7 @@ const CATEGORY_PATHS: Record<string, React.ReactNode> = {
       <path d="M22 9v5" />
     </>
   ),
+  activities: <path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z" />,
   gifts: (
     <>
       <rect x="3" y="8" width="18" height="4" rx="1" />

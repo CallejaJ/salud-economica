@@ -17,8 +17,9 @@ const KEYWORDS: [Category, RegExp][] = [
   ["food", /mercadona|carrefour|lidl|aldi|\bdia\b|eroski|alcampo|consum|supermercado|hipercor|ahorramas|grocer/],
   ["transport", /gasolin|repsol|cepsa|\bbp\b|galp|renfe|\bemt\b|metro|taxi|uber|cabify|parking|peaje|fuel/],
   ["bills", /endesa|iberdrola|naturgy|\bluz\b|agua|\bgas\b|movistar|vodafone|orange|yoigo|digi|seguro|mapfre|\baxa\b|insurance/],
+  ["activities", /extraescolar|scout|atletismo|campamento|conservatorio|escuela de (m[uú]sica|idiomas|danza)|academia de (ingl[eé]s|idiomas|m[uú]sica|danza|baile)/],
   ["sports", /gimnasio|\bgym\b|basic.?fit|mcfit|holmes place|decathlon|p[aá]del|piscina|polideportivo|club deportivo/],
-  ["school", /colegio|escuela|matr[ií]cula|guarder[ií]a|comedor|aula matinal|extraescolar|\bampa\b|uniforme|libros de texto/],
+  ["school", /colegio|escuela|matr[ií]cula|guarder[ií]a|comedor|aula matinal|\bampa\b|uniforme|libros de texto/],
   ["gifts", /regalo|florister[ií]a|juguet|toys ?r ?us|interflora/],
   ["leisure", /netflix|spotify|hbo|disney|amazon|restaurante|\bbar\b|cine|zara|primark|glovo|just eat/],
 ];
