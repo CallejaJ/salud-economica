@@ -158,7 +158,7 @@ export const en = {
   why1Title: "It answers in words.",
   why1Body: "A sentence in green, amber or red tells you whether you make it to the end of the month. You do not need to subtract or divide.",
   why2Title: "Round amounts.",
-  why2Body: "You see \"about 20 € a day\" instead of exact figures with cents. It is enough to decide.",
+  why2Body: "You see \"about €20 a day\" instead of exact figures with cents. It is enough to decide.",
   why3Title: "You can see your money.",
   why3Body: "The bar is everything that comes in. Each color is where it goes and the striped part is what you have left.",
   why4Title: "Parts in words, not percentages.",
