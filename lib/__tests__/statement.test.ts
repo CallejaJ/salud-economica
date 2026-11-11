@@ -9,7 +9,7 @@ describe("guessCategory", () => {
     ["NETFLIX.COM", "leisure"],
     ["BASIC-FIT SPAIN CUOTA", "sports"],
     ["RECIBO COLEGIO SAN JOSE", "school"],
-    ["comedor+aula matinal", "school"],
+    ["COMEDOR+AULA MATINAL", "school"],
     ["ADEUDO AULA MATINAL CEIP", "school"],
     ["FLORISTERIA LA ROSA", "gifts"],
     ["BIZUM A PEPE", "other"],

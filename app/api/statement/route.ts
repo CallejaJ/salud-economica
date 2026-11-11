@@ -38,7 +38,7 @@ const SYSTEM = (year: number) =>
     "You read Spanish bank statements and extract only the account transactions: ignore balances, totals, headers and ads.",
     "amount is negative for charges and expenses and positive for credits and income.",
     "description is short and clear, at most 40 characters, in the statement's language (for example \"Mercadona\" instead of the full card code).",
-    "category: home (rent, mortgage, community fees), food (supermarkets), transport, bills (electricity, water, gas, phone, insurance), leisure (restaurants, subscriptions, clothes), sports (gym, sports clubs, sports gear), school (school fees, canteen or \"comedor\", early care or \"aula matinal\", after-school activities, books, uniforms), gifts (presents, flowers, toys), other; use income for any positive amount.",
+    "category: home (rent, mortgage, community fees), food (supermarkets), transport, bills (electricity, water, gas, phone, insurance), leisure (restaurants, subscriptions, clothes), sports (gym, sports clubs, sports gear), school (school fees, school canteen (comedor), morning care (aula matinal), after-school activities, books, uniforms), gifts (presents, flowers, toys), other; use income for any positive amount.",
     `If a date has no year, use ${year}.`,
   ].join(" ");
 
