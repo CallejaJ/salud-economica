@@ -83,8 +83,9 @@ Los apuntes viven solo en el navegador, así que la vista del mes incluye un pan
 
 | Component | Role |
 |---|---|
-| **`app/layout.tsx`** | Metadatos, script de tema, JSON-LD, proveedores de idioma y animación, cabecera y pie |
-| **`app/page.tsx`** | Estado de apuntes, mes, vista activa y avisos; datos de ejemplo etiquetados cuando no hay apuntes |
+| **`app/(en)` y `app/(es)`** | Una URL por idioma (`/` en inglés, `/es` en español), cada una con sus metadatos, `hreflang` y JSON-LD |
+| **`components/SiteDocument.tsx`** | Documento común: script de tema, JSON-LD, proveedores de idioma y animación, cabecera y pie |
+| **`components/HomePage.tsx`** | Estado de apuntes, mes, vista activa y avisos; datos de ejemplo etiquetados cuando no hay apuntes |
 | **Vista del mes** | `Verdict`, `MoneyBreakdown` y `EntryList` en tres columnas desde 1200 px |
 | **Formulario** | `EntryForm` con tipo, categoría por icono, importe, nota e interruptor de recurrente |
 | **Importador** | `StatementImport` y `DropZone`: lee el PDF, llama a la API y muestra la revisión |
@@ -121,11 +122,11 @@ Los apuntes viven solo en el navegador, así que la vista del mes incluye un pan
 
 ## Testing Strategy
 
-La lógica de `lib/` tiene tests unitarios con **Jest** (`lib/__tests__/`): importes, meses, recurrentes, veredictos, lector simple de extractos, validación de la respuesta de la API, almacenamiento, límite de peticiones y paridad de textos entre idiomas. `tests/e2e/app.test.js` arranca el build de producción y, con **Playwright**, crea apuntes a mano, importa un extracto PDF generado con `pdf-lib` y comprueba los archivos de SEO. GitHub Actions ejecuta `npm test` y `npm run build` en cada push y pull request.
+La lógica de `lib/` tiene tests unitarios con **Jest** (`lib/__tests__/`): importes, meses, recurrentes, veredictos, lector simple de extractos, validación de la respuesta de la API, almacenamiento, límite de peticiones y paridad de textos entre idiomas. `tests/e2e/app.test.js` arranca el build de producción y, con **Playwright**, crea apuntes a mano, importa un extracto PDF generado con `pdf-lib` y comprueba los archivos de SEO y la versión en español en `/es`. GitHub Actions ejecuta `npm test` y `npm run build` en cada push y pull request.
 
 ## Localization
 
-Todos los textos viven en `lib/strings.ts` con las mismas claves en `en` y `es`; un test falla si falta alguna. `LanguageProvider` arranca en inglés, recuerda el español en `localStorage("lang")` y actualiza `lang` del documento. Los importes y meses se formatean con `Intl` según el idioma (`lib/format.ts`).
+Todos los textos viven en `lib/strings.ts` con las mismas claves en `en` y `es`; un test falla si falta alguna. Cada idioma tiene su URL: inglés en `/` y español en `/es`, enlazadas con `hreflang` y listadas en el sitemap. `LanguageProvider` arranca en el idioma de la URL; en `/` recuerda el español guardado en `localStorage("lang")`. Al cambiar de idioma actualiza `lang` del documento, el título y la dirección. Los importes y meses se formatean con `Intl` según el idioma (`lib/format.ts`).
 
 ## Project Setup
 
