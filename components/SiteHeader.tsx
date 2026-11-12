@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
+import Breadcrumbs from "./Breadcrumbs";
 import WhyItHelps from "./WhyItHelps";
 import { BRAND, SITE_NAME } from "@/lib/site";
 
@@ -37,6 +38,7 @@ export default function SiteHeader() {
         </div>
       </header>
       <div className="page-intro">
+        <Breadcrumbs />
         <motion.p
           className="header-legend"
           initial={{ opacity: 0, y: 6 }}
