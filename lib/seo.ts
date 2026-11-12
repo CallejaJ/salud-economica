@@ -7,11 +7,6 @@ export const SEO_TITLE = "Salud Económica: ¿llegas a fin de mes?";
 export const SEO_DESCRIPTION =
   "App gratuita de finanzas personales pensada para personas con discalculia. Apunta ingresos y gastos o sube el PDF de tu banco y recibe la respuesta en palabras y colores. Tus datos no salen de tu dispositivo.";
 
-export const BREADCRUMBS = [
-  { name: AUTHOR.name, url: AUTHOR.url },
-  { name: SITE_NAME, url: `${SITE_URL}/` },
-];
-
 const FAQ_KEYS = [1, 2, 3, 4] as const;
 
 /** Schema.org graph for search engines and generative answer engines. */
@@ -63,11 +58,6 @@ export function structuredData() {
           "English and Spanish interface",
         ],
         screenshot: `${SITE_URL}/og.png`,
-      },
-      {
-        "@type": "BreadcrumbList",
-        "@id": `${SITE_URL}/#breadcrumbs`,
-        itemListElement: BREADCRUMBS.map((b, i) => ({ "@type": "ListItem", position: i + 1, name: b.name, item: b.url })),
       },
       {
         "@type": "HowTo",
