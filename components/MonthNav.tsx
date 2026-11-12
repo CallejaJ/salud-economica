@@ -11,9 +11,9 @@ export default function MonthNav({ month, onShift }: { month: string; onShift: (
       <button type="button" className="mini month-btn" aria-label={t("monthPrev")} onClick={() => onShift(-1)}>
         <ChevronIcon className="flip" />
       </button>
-      <h1 id="month-name" className="section-title" aria-live="polite">
+      <h2 id="month-name" className="section-title" aria-live="polite">
         {monthLabel(month, lang)}
-      </h1>
+      </h2>
       <button type="button" className="mini month-btn" aria-label={t("monthNext")} onClick={() => onShift(1)}>
         <ChevronIcon />
       </button>
