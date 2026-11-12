@@ -272,6 +272,20 @@ html[data-theme="light"] .beta-badge {
   padding: 16px 40px 0;
 }
 
+/* Breadcrumbs stay in the markup for screen readers and search engines but are not shown (docs/decisions/0007-hidden-breadcrumbs.md). */
+.breadcrumbs {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .header-legend {
   margin: 0;
   color: var(--muted);
