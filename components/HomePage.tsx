@@ -30,7 +30,7 @@ const EXAMPLE: Omit<Entry, "month">[] = [
   { id: "x6", kind: "expense", category: "transport", amount: 40, note: "", recurring: true, createdAt: 0 },
 ];
 
-export default function Home() {
+export default function HomePage() {
   const { t, lang } = useLang();
   const [tab, setTab] = useState<Tab>("month");
   const [month, setMonth] = useState(() => monthKey(new Date()));

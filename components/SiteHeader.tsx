@@ -19,15 +19,17 @@ export default function SiteHeader() {
             <motion.img
               className="brand-logo"
               src="/images/logo.svg"
+              width={36}
+              height={36}
               alt={SITE_NAME}
               initial={{ rotate: -8, scale: 0.8, opacity: 0 }}
               animate={{ rotate: 0, scale: 1, opacity: 1 }}
               transition={{ type: "spring", stiffness: 260, damping: 18 }}
             />
-            <span className="header-title">
+            <h1 className="header-title">
               {BRAND.lead}
               <span className="header-title-accent">{BRAND.accent}</span>
-            </span>
+            </h1>
             <span className="beta-badge">Beta</span>
           </div>
           <div className="header-actions">

@@ -50,7 +50,7 @@ This file is the master standard for every project by **Jorge Calleja** (Diseño
 | **UI** | React 19 + TypeScript 5 (strict) | Path alias `@/*` to the project root |
 | **Animation** | Motion 12 (`motion/react`) | Wrapped in `MotionProvider` with `reducedMotion="user"` |
 | **Styling** | One global stylesheet `app/globals.css` with CSS variables | Project tokens under `/* project */` |
-| **i18n** | Own `LanguageProvider` + `lib/strings.ts` | Default `en`, stored in `localStorage("lang")` |
+| **i18n** | Own `LanguageProvider` + `lib/strings.ts` | `/` is `en`, `/es` is `es` (see `docs/decisions/0008-spanish-url.md`); choice stored in `localStorage("lang")` |
 | **PDF text** | `pdfjs-dist` in the browser | See `docs/decisions/0003-pdfjs-in-browser.md` |
 | **AI** | Claude API via `@anthropic-ai/sdk` | See `docs/decisions/0002-server-route-for-claude.md` |
 | **Testing** | Jest 30 + ts-jest for logic, Playwright for E2E | Unit tests in `lib/__tests__/` |

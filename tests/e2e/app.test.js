@@ -224,6 +224,21 @@ test('serves the SEO files', async () => {
   }
 });
 
+test('serves a Spanish version at /es and keeps the address in step with the language', async () => {
+  const html = await (await fetch(BASE + 'es')).text();
+  assert.match(html, /<html lang="es"/);
+  assert.match(html, /<link rel="canonical" href="[^"]+\/es"/);
+  assert.match(html, /hrefLang="x-default"/);
+  const page = await browser.newPage();
+  await page.goto(BASE + 'es');
+  assert.match(await page.textContent('#howTitle'), /Cómo funciona/);
+  await page.click('.lang-btn[data-lang="en"]');
+  await page.waitForFunction(() => location.pathname === '/' && document.documentElement.lang === 'en');
+  await page.reload();
+  assert.match(await page.textContent('#howTitle'), /How it works/);
+  await page.close();
+});
+
 test('shows the pace of the month only for the current month', async () => {
   const page = await browser.newPage();
   await page.clock.setFixedTime(new Date(2026, 10, 11, 12));

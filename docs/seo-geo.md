@@ -8,7 +8,7 @@ Every public project is prepared for classic search engines and for generative a
 |---|---|
 | `lib/site.ts` | `SITE_URL` (overridable with `NEXT_PUBLIC_SITE_URL`), `SITE_NAME`, `AUTHOR`, `GEO` |
 | `lib/seo.ts` | `SEO_TITLE`, `SEO_DESCRIPTION`, `BREADCRUMBS`, `structuredData()` |
-| `app/layout.tsx` | `metadata` and `viewport` exports, theme script, JSON-LD script |
+| `app/layout.tsx` (here `app/(en)` and `app/(es)` layouts with `components/SiteDocument.tsx`) | `metadata` and `viewport` exports, theme script, JSON-LD script |
 | `app/robots.ts` | Allow `*` plus named AI crawlers, link to the sitemap |
 | `app/sitemap.ts` | Every public route plus `/llms.txt` |
 | `public/llms.txt` | Markdown summary for language models, EN with a Spanish paragraph |
