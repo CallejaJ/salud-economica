@@ -239,6 +239,17 @@ test('serves a Spanish version at /es and keeps the address in step with the lan
   await page.close();
 });
 
+test('the note on why it helps folds away when another view is chosen', async () => {
+  const page = await browser.newPage({ viewport: { width: 375, height: 800 } });
+  await page.goto(BASE);
+  await page.click('#why-toggle');
+  await page.waitForSelector('#why-body');
+  await page.click('#tab-add');
+  await page.waitForSelector('#why-body', { state: 'detached' });
+  assert.equal(await page.getAttribute('#why-toggle', 'aria-expanded'), 'false');
+  await page.close();
+});
+
 test('shows the pace of the month only for the current month', async () => {
   const page = await browser.newPage();
   await page.clock.setFixedTime(new Date(2026, 10, 11, 12));

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
 import { CheckIcon, ChevronIcon } from "./icons";
@@ -14,10 +14,19 @@ const POINTS = [
   ["why6Title", "why6Body"],
 ] as const;
 
+/** Fired on window when the user switches view, so the open note folds away. */
+export const VIEW_CHANGE_EVENT = "salud-economica:view-change";
+
 /** Collapsed note under the page legend that explains why the app suits people with dyscalculia. */
 export default function WhyItHelps() {
   const { t } = useLang();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener(VIEW_CHANGE_EVENT, close);
+    return () => window.removeEventListener(VIEW_CHANGE_EVENT, close);
+  }, []);
 
   return (
     <div className="why">
