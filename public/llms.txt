@@ -12,16 +12,23 @@ Salud Económica is made by Jorge Calleja (Diseño Web Málaga, Andalucía, Spai
 - Lets users add income and expenses by hand, with large category buttons and a "repeats" switch for bills that come every month, every 2 or 3 months, or once a year.
 - Imports a bank statement PDF: the text is extracted in the browser, sorted into transactions, and every transaction is reviewed before it is saved.
 
+## Limits
+
+- Public beta: some bank statement layouts may not be read correctly, which is why every imported transaction is reviewed first.
+- It does not connect to banks and does not give financial advice; it only adds up what the user enters.
+- Entries do not sync between devices; a backup file can be saved and loaded by hand.
+
 ## Privacy
 
 - Entries are stored only in the browser (localStorage). There is no account.
 - The PDF file is never uploaded; only its text is sent to the server to be sorted, and it is not stored.
 
-## Links
-
-- App: https://salud-economica.vercel.app/
-- Author: https://jorgecalleja.dev
-
 ## En español
 
 Salud Económica es una aplicación web gratuita de finanzas personales que responde, con palabras y colores, si el dinero llega a fin de mes. Está pensada para personas a las que les cuestan los números, también personas con discalculia: las cifras van redondeadas, cada categoría de gasto tiene su icono y su color, y el extracto del banco en PDF se puede importar y revisar antes de guardarlo. Los datos se guardan solo en el navegador del usuario. La hace Jorge Calleja (Diseño Web Málaga).
+
+## Links
+
+- App (English): https://salud-economica.vercel.app/
+- App (español): https://salud-economica.vercel.app/es
+- Author: https://jorgecalleja.dev
