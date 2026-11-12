@@ -19,6 +19,7 @@ import EntryForm, { type EntryDraft } from "@/components/EntryForm";
 import StatementImport from "@/components/StatementImport";
 import HowItWorks from "@/components/HowItWorks";
 import BackupPanel from "@/components/BackupPanel";
+import { VIEW_CHANGE_EVENT } from "@/components/WhyItHelps";
 
 // Shown only while the user has no entries, always labeled as an example.
 const EXAMPLE: Omit<Entry, "month">[] = [
@@ -63,6 +64,7 @@ export default function HomePage() {
 
   function go(next: Tab) {
     setTab(next);
+    window.dispatchEvent(new Event(VIEW_CHANGE_EVENT));
     window.scrollTo({ top: 0 });
   }
 
