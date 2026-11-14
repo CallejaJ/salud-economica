@@ -2154,13 +2154,17 @@ button.show-all {
     align-items: stretch;
   }
   .view-tabs {
-    display: grid;
-    grid-auto-columns: minmax(0, 1fr);
+    display: flex;
   }
+  /* Share the spare room but let a long label (Upload statement) take the width it needs; wrap only as a last resort */
   .view-tabs .seg-card {
+    flex: 1 1 auto;
     justify-content: center;
     padding: 9px 6px;
     font-size: 13px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
   }
   .month-nav {
     justify-content: space-between;
