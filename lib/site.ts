@@ -1,5 +1,5 @@
 // Public URL of the site. Override with NEXT_PUBLIC_SITE_URL when a custom domain is used.
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://salud-economica.vercel.app").replace(/\/$/, "");
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://saludeco.vercel.app").replace(/\/$/, "");
 
 export const SITE_NAME = "Salud Económica";
 // Brand split for the header: the second part is painted in --accent.

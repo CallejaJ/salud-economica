@@ -15,7 +15,7 @@ This file is the master standard for every project by **Jorge Calleja** (Diseño
 
 - **Name**: Salud Económica (`Salud ` + accent `Económica`)
 - **Purpose**: Tell people who find numbers hard, including people with dyscalculia, whether their money lasts until the end of the month, in words and colors. Entries are added by hand or imported from a bank statement PDF.
-- **URL**: https://salud-economica.vercel.app
+- **URL**: https://saludeco.vercel.app
 - **Repository**: `CallejaJ/salud-economica`
 - **Status**: Beta
 - **Version**: 0.1.0 (`VERSION` in `lib/site.ts`, kept in sync with `package.json`; a test checks it)
