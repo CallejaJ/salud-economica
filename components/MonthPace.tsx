@@ -50,6 +50,7 @@ export default function MonthPace({ summary, month }: { summary: Summary; month:
   return (
     <motion.section
       id="pace"
+      data-tour="pace"
       className={`panel pace pace-${level}`}
       data-pace={level}
       aria-labelledby="paceTitle"

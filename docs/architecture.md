@@ -13,6 +13,7 @@ Salud Económica is a Next.js app served by Vercel. The page runs in the browser
 | **Page** | `components/HomePage.tsx` | Owns entries, selected month, active view and toasts; shows labeled example data when empty |
 | **Month view** | `components/Verdict.tsx`, `MonthPace.tsx`, `MoneyBreakdown.tsx`, `EntryList.tsx` | Verdict sentence and color, pace of the current month (month passed next to money spent), money bar by category, entry list with delete and stop-from-month |
 | **Entry form** | `components/EntryForm.tsx` | Expense or income, category picker, amount, note and recurring switch |
+| **Guided tour** | `components/GuidedTour.tsx` | Spotlight and card over each `data-tour` element; opens on the first visit, remembered in `localStorage("salud-economica.tour")`, started again by the header "?" button |
 | **Statement import** | `components/StatementImport.tsx`, `DropZone.tsx` | Reads the PDF, calls the API, falls back to the regex reader and shows the review list |
 | **Money logic** | `lib/finance.ts` | `entriesFor`, `summarize`, `monthPace`, `roughAmount`, `shareWord`, `parseAmount`, month helpers |
 | **Statement logic** | `lib/statement.ts` | `parseLines`, `guessCategory`, `cleanTransactions` |

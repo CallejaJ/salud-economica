@@ -42,7 +42,7 @@ export default function BackupPanel({
   }
 
   return (
-    <section className="panel backup" aria-labelledby="backupTitle">
+    <section className="panel backup" data-tour="backup" aria-labelledby="backupTitle">
       <div className="backup-text">
         <h2 id="backupTitle">{t("backupTitle")}</h2>
         <p className="panel-sub">{t("backupSub")}</p>

@@ -41,6 +41,7 @@ export default function Verdict({
   return (
     <motion.section
       id="verdict"
+      data-tour="verdict"
       className={`verdict verdict-${verdict}`}
       data-verdict={verdict}
       aria-live="polite"

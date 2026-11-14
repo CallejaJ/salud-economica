@@ -4,6 +4,7 @@ import type { Lang } from "@/lib/strings";
 import SiteHeader from "./SiteHeader";
 import SiteFooter from "./SiteFooter";
 import MotionProvider from "./MotionProvider";
+import GuidedTour from "./GuidedTour";
 
 const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}})();`;
 
@@ -23,6 +24,7 @@ export default function SiteDocument({ lang, children }: { lang: Lang; children:
             <SiteHeader />
             <main className="wrap">{children}</main>
             <SiteFooter />
+            <GuidedTour />
           </MotionProvider>
         </LanguageProvider>
       </body>

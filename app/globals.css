@@ -44,6 +44,7 @@
   --cat-ink: #0f172a;
   --good-bg: rgba(20, 184, 166, 0.1);
   --bad-border: #ef4444;
+  --tour-scrim: rgba(2, 6, 23, 0.66);
 }
 
 html[data-theme="light"] {
@@ -86,6 +87,7 @@ html[data-theme="light"] {
   --cat-ink: #ffffff;
   --good-bg: rgba(13, 148, 136, 0.08);
   --bad-border: #dc2626;
+  --tour-scrim: rgba(15, 23, 42, 0.5);
 }
 
 html,
@@ -2106,6 +2108,124 @@ button.show-all {
     display: inline-flex;
   }
 }
+
+/* Guided tour: a spotlight over the part being explained and a card next to it */
+.tour-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+}
+
+.tour-blocker {
+  position: fixed;
+  inset: 0;
+}
+
+.tour-dim {
+  position: fixed;
+  inset: 0;
+  background: var(--tour-scrim);
+}
+
+/* A transparent hole with a huge shadow that darkens everything else */
+.tour-spotlight {
+  position: fixed;
+  border-radius: 14px;
+  border: 2px solid var(--accent-strong);
+  box-shadow: 0 0 0 9999px var(--tour-scrim);
+  pointer-events: none;
+  transition: top 0.25s ease, left 0.25s ease, width 0.25s ease, height 0.25s ease;
+}
+
+.tour-card {
+  position: fixed;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 18px 48px rgba(2, 6, 23, 0.45);
+  outline: none;
+  transition: opacity 0.2s ease;
+}
+
+/* While it moves to the new step: hidden at once, then fades in */
+.tour-card.moving {
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+}
+
+.tour-card h2 {
+  margin: 2px 0 6px;
+  font-size: 18px;
+}
+
+.tour-card p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.tour-card .tour-count {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.tour-progress {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.tour-dot {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--border);
+}
+
+.tour-dot.done {
+  background: var(--accent);
+  opacity: 0.5;
+}
+
+.tour-dot.active {
+  background: var(--accent-strong);
+}
+
+.tour-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tour-spacer {
+  flex: 1;
+}
+
+.tour-card .tour-skip {
+  color: var(--muted);
+  padding: 6px 0;
+}
+
+.tour-card button.primary.tour-next {
+  padding: 9px 18px;
+  font-size: 14px;
+}
+
+.tour-card button.secondary.tour-prev {
+  padding: 8px 14px;
+}
+
+@media print {
+  .tour-root {
+    display: none;
+  }
+}
+
 
 /* Responsive */
 @media (max-width: 1200px) {

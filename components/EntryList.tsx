@@ -92,6 +92,7 @@ export default function EntryList({
   return (
     <motion.section
       className="panel entries"
+      data-tour="entries"
       aria-labelledby="entriesTitle"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
