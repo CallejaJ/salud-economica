@@ -29,6 +29,6 @@ Salud Económica es una aplicación web gratuita de finanzas personales que resp
 
 ## Links
 
-- App (English): https://salud-economica.vercel.app/
-- App (español): https://salud-economica.vercel.app/es
+- App (English): https://saludeco.vercel.app/
+- App (español): https://saludeco.vercel.app/es
 - Author: https://jorgecalleja.dev
