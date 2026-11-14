@@ -7,11 +7,15 @@ import MotionProvider from "./MotionProvider";
 
 const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}})();`;
 
+// On the English root only: a saved Spanish choice opens /es before anything renders.
+const langScript = `(function(){try{if(location.pathname==='/'&&localStorage.getItem('lang')==='es'){location.replace('/es'+location.search+location.hash);}}catch(e){}})();`;
+
 /** Shared <html> shell of both language versions; `lang` comes from the URL. */
 export default function SiteDocument({ lang, children }: { lang: Lang; children: React.ReactNode }) {
   return (
     <html lang={lang} suppressHydrationWarning>
       <body>
+        {lang === "en" && <script dangerouslySetInnerHTML={{ __html: langScript }} />}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: structuredDataJson(lang) }} />
         <LanguageProvider initialLang={lang}>

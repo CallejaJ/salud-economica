@@ -9,7 +9,7 @@ The page was served in English at `/` and switched to Spanish only in the browse
 
 ## Decision
 
-Each language has its own prerendered URL: English at `/` (also `x-default`) and Spanish at `/es`. Two route groups, `app/(en)` and `app/(es)`, each have a root layout that renders the shared `components/SiteDocument.tsx` with its own `lang`, metadata and JSON-LD from `pageMetadata(lang)` and `structuredData(lang)` in `lib/seo.ts`. The language toggle still switches in place and saves the choice; it also replaces the address with the matching URL and updates `document.title`.
+Each language has its own prerendered URL: English at `/` (also `x-default`) and Spanish at `/es`. Two route groups, `app/(en)` and `app/(es)`, each have a root layout that renders the shared `components/SiteDocument.tsx` with its own `lang`, metadata and JSON-LD from `pageMetadata(lang)` and `structuredData(lang)` in `lib/seo.ts`. The language toggle saves the choice and loads the other URL. On `/`, a saved Spanish choice is sent to `/es` by an inline script before the page renders.
 
 ## Alternatives
 
@@ -23,4 +23,5 @@ Each language has its own prerendered URL: English at `/` (also `x-default`) and
 
 - Spanish and English pages are indexed separately and point to each other with `hreflang`
 - The sitemap lists both URLs with their alternates
-- Moving between the two URLs with a link reloads the page, because they use different root layouts; the toggle avoids this by updating the address in place
+- Moving between the two URLs reloads the page, because they use different root layouts, and the toggle does the same
+- 2026-11-14: the toggle first rewrote the address in place with `history.replaceState`. That left the Next.js router on a URL from the other root layout, and Safari on iPhone showed "This page couldn't load" for people with Spanish saved, so the toggle now loads the other URL
