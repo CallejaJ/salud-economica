@@ -41,6 +41,18 @@ async function statementPdf() {
   return file;
 }
 
+// Every page starts with the guided tour already seen, so its overlay does not cover the flows under
+// test. The script runs before each load, so it also survives `localStorage.clear()` and a reload.
+async function newPage(options) {
+  const page = await browser.newPage(options);
+  await page.addInitScript(() => {
+    try {
+      localStorage.setItem('salud-economica.tour', '1');
+    } catch {}
+  });
+  return page;
+}
+
 before(async () => {
   tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'salud-economica-'));
   const env = { ...process.env, PORT: String(PORT) };
@@ -57,7 +69,7 @@ after(async () => {
 });
 
 test('shows a labeled example, then the real verdict after adding entries', async () => {
-  const page = await browser.newPage();
+  const page = await newPage();
   await page.goto(BASE);
   await page.waitForSelector('.example-badge');
 
@@ -83,7 +95,7 @@ test('shows a labeled example, then the real verdict after adding entries', asyn
 });
 
 test('repeats a quarterly expense only in the months it falls due', async () => {
-  const page = await browser.newPage();
+  const page = await newPage();
   await page.goto(BASE);
   await page.evaluate(() => localStorage.clear());
   await page.reload();
@@ -115,7 +127,7 @@ test('repeats a quarterly expense only in the months it falls due', async () => 
 });
 
 test('imports a bank statement PDF after review', async () => {
-  const page = await browser.newPage();
+  const page = await newPage();
   await page.goto(BASE);
   await page.click('#tab-import');
   await page.setInputFiles('#statement-file', await statementPdf());
@@ -131,7 +143,7 @@ test('imports a bank statement PDF after review', async () => {
 });
 
 test('uploading the same statement again updates it, and a month can be cleared at once', async () => {
-  const page = await browser.newPage();
+  const page = await newPage();
   await page.goto(BASE);
   await page.evaluate(() => localStorage.clear());
   await page.reload();
@@ -168,7 +180,7 @@ test('uploading the same statement again updates it, and a month can be cleared 
 });
 
 test('deletes all data after one confirmation', async () => {
-  const page = await browser.newPage();
+  const page = await newPage();
   await page.goto(BASE);
   await page.evaluate(() => localStorage.clear());
   await page.reload();
@@ -186,7 +198,7 @@ test('deletes all data after one confirmation', async () => {
 });
 
 test('downloads a JSON copy and loads it back after the data is gone', async () => {
-  const page = await browser.newPage({ acceptDownloads: true });
+  const page = await newPage({ acceptDownloads: true });
   await page.goto(BASE);
   await page.evaluate(() => localStorage.clear());
   await page.reload();
@@ -229,7 +241,7 @@ test('serves a Spanish version at /es and keeps the address in step with the lan
   assert.match(html, /<html lang="es"/);
   assert.match(html, /<link rel="canonical" href="[^"]+\/es"/);
   assert.match(html, /hrefLang="x-default"/);
-  const page = await browser.newPage();
+  const page = await newPage();
   await page.goto(BASE + 'es');
   assert.match(await page.textContent('#howTitle'), /Cómo funciona/);
   await Promise.all([page.waitForURL(BASE), page.click('.lang-btn[data-lang="en"]')]);
@@ -240,7 +252,7 @@ test('serves a Spanish version at /es and keeps the address in step with the lan
 });
 
 test('a saved Spanish choice opens /es from the root without rewriting the address in place', async () => {
-  const page = await browser.newPage();
+  const page = await newPage();
   await page.addInitScript(() => {
     window.__replaced = [];
     const replace = history.replaceState;
@@ -263,7 +275,7 @@ test('a saved Spanish choice opens /es from the root without rewriting the addre
 });
 
 test('the note on why it helps folds away when another view is chosen', async () => {
-  const page = await browser.newPage({ viewport: { width: 375, height: 800 } });
+  const page = await newPage({ viewport: { width: 375, height: 800 } });
   await page.goto(BASE);
   await page.click('#why-toggle');
   await page.waitForSelector('#why-body');
@@ -274,7 +286,7 @@ test('the note on why it helps folds away when another view is chosen', async ()
 });
 
 test('shows the pace of the month only for the current month', async () => {
-  const page = await browser.newPage();
+  const page = await newPage();
   await page.clock.setFixedTime(new Date(2026, 10, 11, 12));
   const mk = (id, kind, category, amount) => ({ id, kind, category, amount, note: '', month: '2026-11', recurring: false, createdAt: 0 });
   await page.addInitScript((e) => localStorage.setItem('salud-economica.entries', e), JSON.stringify([mk('a', 'income', 'income', 1500), mk('b', 'expense', 'home', 1100)]));
@@ -290,7 +302,7 @@ test('shows the pace of the month only for the current month', async () => {
 });
 
 test('a long list of entries can be filtered and shows the first five on a phone', async () => {
-  const page = await browser.newPage({ viewport: { width: 375, height: 800 } });
+  const page = await newPage({ viewport: { width: 375, height: 800 } });
   await page.goto(BASE);
   await page.evaluate(() => {
     const month = new Date().toISOString().slice(0, 7);
@@ -313,7 +325,7 @@ test('a long list of entries can be filtered and shows the first five on a phone
 });
 
 test('works when the browser blocks site data, as Safari does with Block All Cookies', async () => {
-  const page = await browser.newPage();
+  const page = await newPage();
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.addInitScript(() => {
@@ -326,7 +338,36 @@ test('works when the browser blocks site data, as Safari does with Block All Coo
   });
   await page.goto(BASE);
   await page.waitForSelector('#verdict');
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(1000);
   assert.deepEqual(errors, []);
+  // The tour cannot remember that it was seen, so it does not open by itself every time.
+  assert.equal(await page.locator('#tour-card').count(), 0);
+  await page.close();
+});
+
+test('the guided tour opens on the first visit, is remembered and can be started again', async () => {
+  const page = await browser.newPage({ viewport: { width: 375, height: 800 } });
+  await page.goto(BASE);
+  await page.waitForSelector('#tour-card:not(.moving)');
+  await page.click('#tour-next');
+  await page.waitForSelector('.tour-root[data-step="2"] .tour-spotlight');
+  await page.click('#tour-skip');
+  assert.equal(await page.locator('#tour-card').count(), 0);
+  assert.equal(await page.evaluate(() => localStorage.getItem('salud-economica.tour')), '1');
+
+  await page.reload();
+  await page.waitForSelector('#verdict');
+  await page.waitForTimeout(1200);
+  assert.equal(await page.locator('#tour-card').count(), 0);
+
+  await page.click('#tab-add');
+  await page.click('#tour-btn');
+  await page.waitForSelector('#tour-card:not(.moving)');
+  assert.equal(await page.locator('#tab-month[aria-selected="true"]').count(), 1);
+  const steps = await page.locator('.tour-dot').count();
+  for (let i = 1; i < steps; i++) await page.click('#tour-next');
+  await page.waitForSelector(`.tour-root[data-step="${steps}"] #tour-card:not(.moving)`);
+  await page.click('#tour-next');
+  assert.equal(await page.locator('#tour-card').count(), 0);
   await page.close();
 });

@@ -145,3 +145,10 @@ const CATEGORY_PATHS: Record<string, React.ReactNode> = {
 export const CategoryIcon = ({ category, size = 20 }: { category: string; size?: number }) => (
   <svg {...base(size)}>{CATEGORY_PATHS[category] ?? CATEGORY_PATHS.other}</svg>
 );
+export const HelpIcon = ({ size = 20 }: P) => (
+  <svg {...base(size)}>
+    <circle cx="12" cy="12" r="10" />
+    <path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3" />
+    <path d="M12 17h.01" />
+  </svg>
+);

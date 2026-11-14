@@ -14,9 +14,9 @@ const TABS: { id: Tab; key: "tabMonth" | "tabAdd" | "tabImport" }[] = [
 export default function ViewTabs({ tab, onChange }: { tab: Tab; onChange: (tab: Tab) => void }) {
   const { t } = useLang();
   return (
-    <div className="seg view-tabs" role="tablist" aria-label={t("tabsLabel")}>
+    <div className="seg view-tabs" data-tour="tabs" role="tablist" aria-label={t("tabsLabel")}>
       {TABS.map(({ id, key }) => (
-        <button key={id} type="button" role="tab" id={`tab-${id}`} aria-selected={tab === id} className={`seg-card${tab === id ? " active" : ""}`} onClick={() => onChange(id)}>
+        <button key={id} type="button" role="tab" id={`tab-${id}`} aria-selected={tab === id} className={`seg-card${tab === id ? " active" : ""}`} data-tour={id === "month" ? undefined : id} onClick={() => onChange(id)}>
           {tab === id && <motion.span layoutId="tab-pill" className="seg-pill" transition={{ type: "spring", stiffness: 500, damping: 35 }} />}
           <b>{t(key)}</b>
         </button>

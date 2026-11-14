@@ -119,6 +119,7 @@ Los apuntes viven solo en el navegador, así que la vista del mes incluye un pan
 8. **Privado por defecto** — los apuntes se quedan en el dispositivo y el PDF nunca se sube.
 9. **Bilingüe** — interfaz completa en español e inglés.
 10. **Explica por qué ayuda** — bajo la leyenda, un apartado plegable cuenta en seis puntos por qué la app sirve a personas con discalculia.
+11. **Tour guiado** — la primera visita recorre paso a paso la respuesta, el ritmo, la barra del dinero, los apuntes, cómo apuntar, el extracto y la copia; el botón «?» de la cabecera lo repite.
 
 ## Testing Strategy
 

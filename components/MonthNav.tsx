@@ -7,7 +7,7 @@ import { ChevronIcon } from "./icons";
 export default function MonthNav({ month, onShift }: { month: string; onShift: (delta: number) => void }) {
   const { t, lang } = useLang();
   return (
-    <div className="month-nav">
+    <div className="month-nav" data-tour="month">
       <button type="button" className="mini month-btn" aria-label={t("monthPrev")} onClick={() => onShift(-1)}>
         <ChevronIcon className="flip" />
       </button>

@@ -23,6 +23,7 @@ export default function MoneyBreakdown({ summary }: { summary: Summary }) {
   return (
     <motion.section
       className="panel money"
+      data-tour="money"
       aria-labelledby="moneyTitle"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}

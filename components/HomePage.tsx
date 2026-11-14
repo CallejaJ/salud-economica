@@ -20,6 +20,7 @@ import StatementImport from "@/components/StatementImport";
 import HowItWorks from "@/components/HowItWorks";
 import BackupPanel from "@/components/BackupPanel";
 import { VIEW_CHANGE_EVENT } from "@/components/WhyItHelps";
+import { TOUR_EVENT } from "@/components/GuidedTour";
 
 // Shown only while the user has no entries, always labeled as an example.
 const EXAMPLE: Omit<Entry, "month">[] = [
@@ -42,6 +43,13 @@ export default function HomePage() {
   useEffect(() => {
     setEntries(loadEntries());
     setLoaded(true);
+  }, []);
+
+  // The tour walks through the month view, so starting it again brings that view back.
+  useEffect(() => {
+    const toMonth = () => setTab("month");
+    window.addEventListener(TOUR_EVENT, toMonth);
+    return () => window.removeEventListener(TOUR_EVENT, toMonth);
   }, []);
 
   useEffect(() => {

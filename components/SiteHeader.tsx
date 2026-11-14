@@ -5,6 +5,7 @@ import { useLang } from "@/lib/i18n";
 import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
 import WhyItHelps from "./WhyItHelps";
+import { TourButton } from "./GuidedTour";
 import { BRAND, SITE_NAME } from "@/lib/site";
 
 export default function SiteHeader() {
@@ -35,6 +36,7 @@ export default function SiteHeader() {
           <div className="header-actions">
             <LanguageToggle />
             <ThemeToggle />
+            <TourButton />
           </div>
         </div>
       </header>
