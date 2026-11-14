@@ -23,3 +23,21 @@ test("returns an empty list for missing or corrupt data", () => {
 test("reports a failed write", () => {
   expect(saveEntries([], { setItem: () => { throw new Error("quota"); } })).toBe(false);
 });
+
+test("survives a browser that blocks site data", () => {
+  // Safari with "Block All Cookies" throws on the localStorage getter itself.
+  const original = Object.getOwnPropertyDescriptor(globalThis, "localStorage");
+  Object.defineProperty(globalThis, "localStorage", {
+    configurable: true,
+    get() {
+      throw new DOMException("The operation is insecure.", "SecurityError");
+    },
+  });
+  try {
+    expect(loadEntries()).toEqual([]);
+    expect(saveEntries([])).toBe(false);
+  } finally {
+    if (original) Object.defineProperty(globalThis, "localStorage", original);
+    else delete (globalThis as { localStorage?: Storage }).localStorage;
+  }
+});
