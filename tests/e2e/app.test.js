@@ -232,9 +232,32 @@ test('serves a Spanish version at /es and keeps the address in step with the lan
   const page = await browser.newPage();
   await page.goto(BASE + 'es');
   assert.match(await page.textContent('#howTitle'), /Cómo funciona/);
-  await page.click('.lang-btn[data-lang="en"]');
-  await page.waitForFunction(() => location.pathname === '/' && document.documentElement.lang === 'en');
+  await Promise.all([page.waitForURL(BASE), page.click('.lang-btn[data-lang="en"]')]);
+  assert.equal(await page.getAttribute('html', 'lang'), 'en');
   await page.reload();
+  assert.match(await page.textContent('#howTitle'), /How it works/);
+  await page.close();
+});
+
+test('a saved Spanish choice opens /es from the root without rewriting the address in place', async () => {
+  const page = await browser.newPage();
+  await page.addInitScript(() => {
+    window.__replaced = [];
+    const replace = history.replaceState;
+    history.replaceState = function (state, title, url) {
+      // Next.js re-writes the current URL on start; only a move to another path counts.
+      if (url != null && new URL(String(url), location.href).pathname !== location.pathname) window.__replaced.push(String(url));
+      return replace.apply(this, arguments);
+    };
+  });
+  await page.goto(BASE + 'es');
+  await page.evaluate(() => localStorage.setItem('lang', 'es'));
+  await page.goto(BASE);
+  await page.waitForURL(BASE + 'es');
+  assert.equal(await page.getAttribute('html', 'lang'), 'es');
+  assert.match(await page.textContent('#howTitle'), /Cómo funciona/);
+  assert.deepEqual(await page.evaluate(() => window.__replaced), []);
+  await Promise.all([page.waitForURL(BASE), page.click('.lang-btn[data-lang="en"]')]);
   assert.match(await page.textContent('#howTitle'), /How it works/);
   await page.close();
 });

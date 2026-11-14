@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import { createContext, useCallback, useContext } from "react";
 
 import { STRINGS, en, type Key, type Lang } from "./strings";
-import { LANG_PATH, SEO } from "./seo";
+import { LANG_PATH } from "./seo";
 
 export type { Lang, Key };
 type Str = string | ((...args: never[]) => string) | Record<string, string>;
@@ -21,37 +21,26 @@ interface LangContext {
 const Ctx = createContext<LangContext | null>(null);
 
 /**
- * `initialLang` comes from the URL (`/` is English, `/es` is Spanish). On the root, a saved
- * Spanish choice still wins, as before. The address bar, `<html lang>` and the title follow
- * the language so a shared or reloaded link opens in the language on screen.
+ * The language comes from the URL: `/` is English and `/es` is Spanish. Each one has its own root
+ * layout, so switching language loads the other URL instead of rewriting the address in place:
+ * rewriting it with `history.replaceState` left the router on a URL from the other root layout,
+ * and Safari on iPhone then failed to load the page. A saved Spanish choice on the root is sent to
+ * `/es` by the inline script in `SiteDocument` before the page renders.
  */
 export function LanguageProvider({ initialLang = "en", children }: { initialLang?: Lang; children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(initialLang);
+  const lang = initialLang;
 
-  useEffect(() => {
-    if (initialLang !== "en") return;
-    try {
-      if (localStorage.getItem("lang") === "es") setLangState("es");
-    } catch {}
-  }, [initialLang]);
-
-  useEffect(() => {
-    document.documentElement.lang = lang;
-    document.title = SEO[lang].title;
-    const path = LANG_PATH[lang];
-    if (window.location.pathname !== path) {
+  const setLang = useCallback(
+    (l: Lang) => {
       try {
-        window.history.replaceState(window.history.state, "", path + window.location.search + window.location.hash);
+        localStorage.setItem("lang", l);
       } catch {}
-    }
-  }, [lang]);
-
-  const setLang = useCallback((l: Lang) => {
-    setLangState(l);
-    try {
-      localStorage.setItem("lang", l);
-    } catch {}
-  }, []);
+      if (l === lang) return;
+      const { search, hash } = window.location;
+      window.location.assign(LANG_PATH[l] + search + hash);
+    },
+    [lang],
+  );
 
   const dict = STRINGS[lang] as Dict;
   const t = useCallback(
