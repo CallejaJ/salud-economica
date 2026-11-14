@@ -311,3 +311,22 @@ test('a long list of entries can be filtered and shows the first five on a phone
   assert.equal(await page.locator('#entry-list .entry-amount.in').count(), 0);
   await page.close();
 });
+
+test('works when the browser blocks site data, as Safari does with Block All Cookies', async () => {
+  const page = await browser.newPage();
+  const errors = [];
+  page.on('pageerror', (e) => errors.push(e.message));
+  await page.addInitScript(() => {
+    Object.defineProperty(window, 'localStorage', {
+      configurable: true,
+      get() {
+        throw new DOMException('The operation is insecure.', 'SecurityError');
+      },
+    });
+  });
+  await page.goto(BASE);
+  await page.waitForSelector('#verdict');
+  await page.waitForTimeout(500);
+  assert.deepEqual(errors, []);
+  await page.close();
+});
