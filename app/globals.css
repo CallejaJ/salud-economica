@@ -90,6 +90,23 @@ html[data-theme="light"] {
   --tour-scrim: rgba(15, 23, 42, 0.5);
 }
 
+/* OpenDyslexic, self-hosted (SIL OFL, see public/fonts/OFL.txt) */
+@font-face {
+  font-family: "OpenDyslexic";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/opendyslexic-400.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/opendyslexic-700.woff2") format("woff2");
+}
+
 html,
 body {
   margin: 0;
@@ -97,7 +114,7 @@ body {
   background: var(--bg);
   color: var(--text);
   overflow-x: clip;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: "OpenDyslexic", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
@@ -1240,7 +1257,7 @@ button.danger {
 
 .cat-row {
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr) auto;
+  grid-template-columns: 38px minmax(0, 1fr) minmax(5em, auto);
   align-items: center;
   gap: 12px;
 }
@@ -1292,8 +1309,10 @@ button.danger {
   white-space: nowrap;
 }
 
+/* The amount sits beside the bar; its share word gets a line of its own under the bar,
+   so a long phrase in a wide font never squeezes the bar or the category name */
 .cat-row-amount {
-  text-align: right;
+  display: contents;
 }
 
 .cat-row-amount b,
@@ -1303,8 +1322,14 @@ button.danger {
   white-space: nowrap;
 }
 
+.cat-row-amount b {
+  justify-self: end;
+}
+
 .cat-row-amount small {
-  display: block;
+  grid-column: 2 / -1;
+  margin-top: -8px;
+  text-align: right;
   color: var(--muted);
   font-size: 12px;
 }
@@ -1468,7 +1493,7 @@ button.link.cat-change-text:hover {
 /* Entry form */
 .kind-pick {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 18px;
 }
@@ -2302,6 +2327,12 @@ button.show-all {
   .beta-badge {
     display: none;
   }
+  /* OpenDyslexic is wide: the name wraps after "Salud" instead of being cut */
+  .header-title {
+    font-size: 15px;
+    line-height: 1.15;
+    white-space: normal;
+  }
   .header-actions {
     gap: 6px;
   }
@@ -2317,9 +2348,12 @@ button.show-all {
     width: 32px;
     height: 32px;
   }
-  .kind-pick,
+  /* One option per row, so the wide OpenDyslexic labels stay on one line */
+  .kind-pick {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .cat-pick {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
