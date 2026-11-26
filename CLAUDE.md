@@ -64,6 +64,7 @@ Follow `docs/design-system.md`. Project-specific choices:
 - **Category tokens** `--cat-home`, `--cat-food`, `--cat-transport`, `--cat-bills`, `--cat-leisure`, `--cat-sports`, `--cat-school`, `--cat-activities`, `--cat-gifts`, `--cat-other`, `--cat-income`, defined in both themes.
 - **Verdict card** uses larger type than the standard (26 px title, 18 px line) on purpose, for readers with dyscalculia; see `docs/decisions/0004-larger-verdict-type.md`.
 - **Month view** is three columns from 1200 px, two from 900 px, one below.
+- **Typeface** is OpenDyslexic (400 and 700, self-hosted in `public/fonts`) with the system stack as fallback, an exception to the standard's "no web fonts"; see `docs/decisions/0010-opendyslexic-typeface.md`.
 
 ## Definition of Done
 

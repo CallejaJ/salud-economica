@@ -15,6 +15,10 @@ const langScript = `(function(){try{if(location.pathname==='/'&&localStorage.get
 export default function SiteDocument({ lang, children }: { lang: Lang; children: React.ReactNode }) {
   return (
     <html lang={lang} suppressHydrationWarning>
+      <head>
+        <link rel="preload" href="/fonts/opendyslexic-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/opendyslexic-700.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+      </head>
       <body>
         {lang === "en" && <script dangerouslySetInnerHTML={{ __html: langScript }} />}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
