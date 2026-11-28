@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useLang } from "@/lib/i18n";
 import ThemeToggle from "./ThemeToggle";
+import FontToggle from "./FontToggle";
 import LanguageToggle from "./LanguageToggle";
 import WhyItHelps from "./WhyItHelps";
 import { TourButton } from "./GuidedTour";
@@ -35,6 +36,7 @@ export default function SiteHeader() {
           </div>
           <div className="header-actions">
             <LanguageToggle />
+            <FontToggle />
             <ThemeToggle />
             <TourButton />
           </div>

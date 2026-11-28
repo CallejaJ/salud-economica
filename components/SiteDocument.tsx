@@ -6,7 +6,7 @@ import SiteFooter from "./SiteFooter";
 import MotionProvider from "./MotionProvider";
 import GuidedTour from "./GuidedTour";
 
-const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}})();`;
+const themeScript = `(function(){try{if(localStorage.getItem('font')==='dyslexic'){document.documentElement.dataset.font='dyslexic';}}catch(e){}try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.dataset.theme=t;}catch(e){document.documentElement.dataset.theme='dark';}})();`;
 
 // On the English root only: a saved Spanish choice opens /es before anything renders.
 const langScript = `(function(){try{if(location.pathname==='/'&&localStorage.getItem('lang')==='es'){location.replace('/es'+location.search+location.hash);}}catch(e){}})();`;
@@ -15,10 +15,6 @@ const langScript = `(function(){try{if(location.pathname==='/'&&localStorage.get
 export default function SiteDocument({ lang, children }: { lang: Lang; children: React.ReactNode }) {
   return (
     <html lang={lang} suppressHydrationWarning>
-      <head>
-        <link rel="preload" href="/fonts/opendyslexic-400.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-        <link rel="preload" href="/fonts/opendyslexic-700.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
-      </head>
       <body>
         {lang === "en" && <script dangerouslySetInnerHTML={{ __html: langScript }} />}
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />

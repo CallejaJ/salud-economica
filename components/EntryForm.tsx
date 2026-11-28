@@ -134,7 +134,7 @@ export default function EntryForm({ onSave }: { onSave: (draft: EntryDraft) => b
           </div>
         )}
 
-        <button type="submit" id="save" className="primary wide">
+        <button type="submit" id="save" className="primary submit">
           {t("save")}
         </button>
       </form>
