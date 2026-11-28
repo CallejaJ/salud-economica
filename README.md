@@ -99,7 +99,7 @@ Los apuntes viven solo en el navegador, así que la vista del mes incluye un pan
 
 - **Frontend**: Next.js 16 (App Router), React 19, TypeScript 5 en modo estricto
 - **Estilos**: una hoja `app/globals.css` con variables CSS, tema oscuro por defecto y tema claro
-- **Tipografía**: OpenDyslexic autoalojada en `public/fonts` (licencia SIL OFL), con las fuentes del sistema de respaldo
+- **Tipografía**: Verdana (o la de palo seco del sistema) por defecto; OpenDyslexic autoalojada en `public/fonts` (licencia SIL OFL) como opción
 - **Animación**: Motion 12 con `reducedMotion="user"`
 - **PDF**: `pdfjs-dist` 6.4 cargado bajo demanda
 - **Backend/API**: ruta de Next.js en Node.js sobre Vercel
@@ -119,7 +119,7 @@ Los apuntes viven solo en el navegador, así que la vista del mes incluye un pan
 7. **Se apunta una vez** — ingresos y gastos fijos aparecen solos en los meses siguientes.
 8. **Privado por defecto** — los apuntes se quedan en el dispositivo y el PDF nunca se sube.
 9. **Bilingüe** — interfaz completa en español e inglés.
-10. **Letra OpenDyslexic** — toda la interfaz usa una tipografía pensada para leer con menos esfuerzo.
+10. **Letra legible** — palo seco con más espacio entre letras, líneas cortas y sin cursiva; el botón «Aa» cambia a OpenDyslexic.
 11. **Explica por qué ayuda** — bajo la leyenda, un apartado plegable cuenta en seis puntos por qué la app sirve a personas con discalculia.
 12. **Tour guiado** — la primera visita recorre paso a paso la respuesta, el ritmo, la barra del dinero, los apuntes, cómo apuntar, el extracto y la copia; el botón «?» de la cabecera lo repite.
 

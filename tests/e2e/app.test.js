@@ -285,6 +285,22 @@ test('the note on why it helps folds away when another view is chosen', async ()
   await page.close();
 });
 
+test('opens in a sans-serif typeface and remembers the switch to OpenDyslexic', async () => {
+  const page = await newPage({ viewport: { width: 375, height: 800 } });
+  await page.goto(BASE);
+  const family = () => page.evaluate(() => getComputedStyle(document.body).fontFamily);
+  assert.match(await family(), /^Verdana/);
+  assert.equal(await page.getAttribute('#font', 'aria-pressed'), 'false');
+  await page.click('#font');
+  assert.match(await family(), /^OpenDyslexic/);
+  await page.reload();
+  assert.match(await family(), /^OpenDyslexic/);
+  assert.equal(await page.getAttribute('#font', 'aria-pressed'), 'true');
+  await page.click('#font');
+  assert.match(await family(), /^Verdana/);
+  await page.close();
+});
+
 test('shows the pace of the month only for the current month', async () => {
   const page = await newPage();
   await page.clock.setFixedTime(new Date(2026, 10, 11, 12));

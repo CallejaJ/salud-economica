@@ -5,11 +5,16 @@
 }
 
 :root {
-  --tracking: -0.06em;
-  --tracking-tight: -0.08em;
-  --tracking-caps: 0;
-  --tracking-figures: 0;
-  --word-gap: -0.32em;
+  /* Type: sans-serif by default with letter spacing above normal (+7 %), as the dyslexia
+     readability research Jorge shared recommends; see docs/decisions/0012-sans-serif-default.md */
+  --font-body: Verdana, "Verdana Pro", "DejaVu Sans", Tahoma, Arial, Helvetica, system-ui, sans-serif;
+  --tracking: 0.07em;
+  --tracking-tight: 0.03em;
+  --tracking-caps: 0.1em;
+  --tracking-figures: 0.04em;
+  --word-gap: 0.08em;
+  --reading-width: 46ch;
+  --line-height: 1.5;
   --bg: #0f172a;
   --panel: #1e293b;
   --panel-2: #273449;
@@ -122,6 +127,17 @@ html[data-theme="light"] {
   word-spacing: var(--word-gap);
 }
 
+/* OpenDyslexic, chosen with the "Aa" button: its own wide spacing is pulled in (0011) */
+html[data-font="dyslexic"] {
+  --font-body: "OpenDyslexic", Verdana, Arial, system-ui, sans-serif;
+  --tracking: -0.06em;
+  --tracking-tight: -0.08em;
+  --tracking-caps: 0;
+  --tracking-figures: 0;
+  --word-gap: -0.32em;
+  --line-height: normal;
+}
+
 html,
 body {
   margin: 0;
@@ -129,7 +145,8 @@ body {
   background: var(--bg);
   color: var(--text);
   overflow-x: clip;
-  font-family: "OpenDyslexic", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-family: var(--font-body);
+  line-height: var(--line-height);
 }
 
 body {
@@ -300,6 +317,16 @@ html[data-theme="light"] .beta-badge {
   border-color: var(--accent);
 }
 
+/* Running text keeps short lines (about 44 characters) */
+.why-intro,
+.why-list,
+.help-grid p,
+.step p,
+.panel-sub,
+.section-sub {
+  max-width: var(--reading-width);
+}
+
 .page-intro {
   width: 100%;
   max-width: 1600px;
@@ -310,8 +337,8 @@ html[data-theme="light"] .beta-badge {
 .header-legend {
   margin: 0;
   color: var(--muted);
-  font-size: 13px;
-  max-width: 820px;
+  font-size: 15px;
+  max-width: var(--reading-width);
   line-height: 1.5;
 }
 
@@ -347,7 +374,7 @@ button.link.why-toggle {
 
 .why-intro {
   margin: 0 0 10px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
@@ -378,7 +405,7 @@ button.link.why-toggle {
   gap: 10px;
   align-items: flex-start;
   color: var(--muted);
-  font-size: 13.5px;
+  font-size: 15px;
   line-height: 1.6;
 }
 
@@ -432,7 +459,7 @@ button.link.why-toggle {
 .panel-sub {
   margin: 0 0 18px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 
@@ -474,7 +501,7 @@ button.link.why-toggle {
 
 #drop span {
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .drop-limit {
@@ -496,7 +523,7 @@ button.link.why-toggle {
   border: 1px solid var(--warn-border);
   background: var(--warn-bg);
   color: var(--warn-text);
-  font-size: 12.5px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -516,7 +543,7 @@ button.link.why-toggle {
 button {
   cursor: pointer;
   font: inherit;
-  font-size: 14px;
+  font-size: 16px;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--panel-2);
@@ -571,7 +598,7 @@ button.link {
   border: none;
   color: var(--accent);
   padding: 4px 0;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 /* Destructive text button: red, with its icon, for "delete all" actions that open a confirmation */
@@ -594,7 +621,7 @@ button.link:disabled {
 
 label {
   display: block;
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
   margin: 0 0 6px;
 }
@@ -608,7 +635,7 @@ select {
   border-radius: 8px;
   color: var(--text);
   font: inherit;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 input[type="number"]:focus,
@@ -635,7 +662,7 @@ select:focus {
   gap: 12px;
   margin: 0 0 20px;
   color: var(--text);
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -679,7 +706,7 @@ select:focus {
 .switch small {
   display: block;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13.5px;
   margin-top: 2px;
 }
 
@@ -715,7 +742,7 @@ select:focus {
   padding: 8px 14px;
   border-radius: 9px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
   white-space: nowrap;
   transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
@@ -846,7 +873,7 @@ button.secondary:disabled {
   border: 1px solid var(--border);
   background: var(--panel-2);
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -874,7 +901,7 @@ button.secondary:disabled {
 .section-sub {
   margin: 0 0 18px;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .steps {
@@ -902,7 +929,7 @@ button.secondary:disabled {
   background: linear-gradient(135deg, var(--accent) 0%, var(--accent-strong) 100%);
   color: var(--button-text);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .step h3 {
@@ -913,7 +940,7 @@ button.secondary:disabled {
 .step p {
   margin: 0;
   color: var(--muted);
-  font-size: 13.5px;
+  font-size: 15px;
   line-height: 1.6;
 }
 
@@ -932,7 +959,7 @@ button.secondary:disabled {
   padding: 12px 0;
   border-top: 1px solid var(--border);
   color: var(--muted);
-  font-size: 13.5px;
+  font-size: 15px;
   line-height: 1.6;
 }
 
@@ -965,7 +992,7 @@ button.secondary:disabled {
 .view-tabs .seg-card {
   border: 0;
   background: transparent;
-  font-size: 14px;
+  font-size: 16px;
   padding: 9px 16px;
 }
 
@@ -1062,7 +1089,7 @@ button.month-btn {
 
 button.small {
   padding: 7px 14px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 /* Form submit: as wide as its label plus generous padding, not the whole card */
@@ -1223,7 +1250,7 @@ button.danger {
   gap: 10px;
   margin: 8px 0 18px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .money-legend b {
@@ -1285,7 +1312,7 @@ button.danger {
 
 .cat-row-name {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .cat-track {
@@ -1311,7 +1338,7 @@ button.danger {
   display: grid;
   gap: 2px;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .cat-notes li {
@@ -1354,7 +1381,7 @@ button.danger {
   margin-top: -8px;
   text-align: right;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 13.5px;
 }
 
 /* Entries */
@@ -1375,7 +1402,7 @@ button.danger {
 
 .entry-main b {
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   overflow-wrap: anywhere;
 }
 
@@ -1385,7 +1412,7 @@ button.danger {
   align-items: center;
   gap: 6px;
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: 14px;
 }
 
 .entry-amount.in {
@@ -1470,7 +1497,7 @@ button.link.cat-change-text:hover {
   gap: 4px;
   padding: 6px 4px;
   border-width: 1px;
-  font-size: 12px;
+  font-size: 13.5px;
   line-height: 1.2;
   color: var(--text);
 }
@@ -1483,7 +1510,7 @@ button.link.cat-change-text:hover {
   margin: 0 12px;
   padding: 10px 0 12px;
   border-top: 1px solid var(--border);
-  font-size: 13px;
+  font-size: 15px;
   color: var(--muted);
 }
 
@@ -1509,7 +1536,7 @@ button.link.cat-change-text:hover {
   border-radius: 10px;
   border: 1px dashed var(--border);
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
   text-align: center;
 }
 
@@ -1539,7 +1566,7 @@ button.big-opt b {
 
 button.big-opt small {
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: 14px;
 }
 
 .big-opt-icon {
@@ -1573,7 +1600,7 @@ button.big-opt.active,
   border-radius: 12px;
   border-width: 2px;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
@@ -1588,7 +1615,7 @@ button.big-opt.active,
   border-radius: 12px;
   border-width: 2px;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 15px;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
@@ -1644,7 +1671,7 @@ button.big-opt.active,
 .field-error {
   display: block;
   margin-top: 6px;
-  font-size: 12.5px;
+  font-size: 14px;
   color: var(--muted);
 }
 
@@ -1660,7 +1687,7 @@ button.big-opt.active,
   background: var(--panel-2);
   color: var(--text);
   font: inherit;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .text-input:focus {
@@ -1674,7 +1701,7 @@ button.big-opt.active,
   align-items: center;
   gap: 10px;
   margin: 14px 0 0;
-  font-size: 13.5px;
+  font-size: 15px;
   color: var(--muted);
 }
 
@@ -1722,7 +1749,7 @@ button.big-opt.active,
 .review-row select {
   width: auto;
   padding: 3px 8px;
-  font-size: 12.5px;
+  font-size: 14px;
 }
 
 .review .entry-list {
@@ -1754,7 +1781,7 @@ button.big-opt.active,
   background: var(--panel);
   color: var(--text);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   box-shadow: var(--glass-shadow);
 }
 
@@ -1765,7 +1792,7 @@ button.big-opt.active,
   padding: 18px 40px;
   text-align: center;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .site-footer a {
@@ -1921,7 +1948,7 @@ button.big-opt.active,
   justify-content: space-between;
   gap: 4px 12px;
   margin-bottom: 6px;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--muted);
 }
 
@@ -2027,7 +2054,7 @@ button.big-opt.active,
   background: var(--panel);
   box-shadow: var(--glass-shadow);
   color: var(--text);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.45;
   pointer-events: none;
 }
@@ -2051,7 +2078,7 @@ button.big-opt.active,
 .pace-note {
   margin: 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 /* Long entry lists: quick filters, a scroll inside the card with a fade while more is below, and on a phone the first few with "Show all" */
@@ -2073,7 +2100,7 @@ button.big-opt.active,
   border: 1px solid var(--border);
   background: var(--panel-2);
   color: var(--text);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
 }
@@ -2330,7 +2357,7 @@ button.show-all {
     flex: 1 1 auto;
     justify-content: center;
     padding: 9px 6px;
-    font-size: 13px;
+    font-size: 15px;
     white-space: normal;
     text-align: center;
     line-height: 1.2;
@@ -2351,14 +2378,21 @@ button.show-all {
   .beta-badge {
     display: none;
   }
-  /* OpenDyslexic is wide: the name wraps after "Salud" instead of being cut */
+  /* The name wraps after "Salud" instead of being cut, next to four header buttons */
   .header-title {
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.15;
+    letter-spacing: min(0px, var(--tracking-tight));
     white-space: normal;
   }
+  .header-title-accent {
+    letter-spacing: inherit;
+  }
+  html[data-font="dyslexic"] .header-title {
+    font-size: 13px;
+  }
   .header-actions {
-    gap: 6px;
+    gap: 4px;
   }
   .lang-toggle {
     height: 32px;
